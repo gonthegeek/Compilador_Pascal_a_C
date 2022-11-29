@@ -1,0 +1,10 @@
+﻿  hash.c
+  scanner.c
+scanner.c(730,10): warning C4102: 'find_rule': etiqueta sin referencia
+  sintactico.tab.c
+sintactico.tab.c(330,7): warning C4273: 'malloc': vinculación de DLL incoherente
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\ucrt\corecrt_malloc.h(101,15): message : vea la definición anterior de 'malloc'
+sintactico.tab.c(337,6): warning C4273: 'free': vinculación de DLL incoherente
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\ucrt\corecrt_malloc.h(89,14): message : vea la definición anterior de 'free'
+  Generando código...
+  Compila_Flex.vcxproj -> C:\Users\Javier\Desktop\Pascal_a_C\Compila_Flex\x64\Debug\Compila_Flex.exe

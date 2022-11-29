@@ -35,7 +35,7 @@
 /* "%code requires" blocks.  */
 
 /* Line 1676 of yacc.c  */
-#line 14 "sintactico.y"
+#line 14 ".\\sintactico.y"
 
     #include "hash.h"
 
@@ -94,11 +94,11 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 19 "sintactico.y"
+#line 19 ".\\sintactico.y"
 
         identidad aux;
-        char nombre[127];
-        char tipo [15];
+        char ambito[15];
+        char nombre[200];
 
 
 

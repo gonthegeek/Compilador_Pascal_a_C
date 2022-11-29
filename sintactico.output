@@ -1,0 +1,1807 @@
+Nonterminals useless in grammar
+
+   RELOP
+   IF_INSTRUCCION
+   RELOP_EXPRESION
+   RELOP_AND
+   RELOP_NOT
+   RELOP_PAREN
+   RELOP_EXPRESION_SIMPLE
+
+
+Terminals unused in grammar
+
+   WHILE
+   IF
+   ELSE
+   THEN
+   AND
+   OR
+   NOT
+   '<'
+   '>'
+
+
+Rules useless in grammar
+
+   71 RELOP: AND
+   72      | OR
+   73      | '<'
+   74      | '>'
+   75      | '<' '='
+   76      | '>' '='
+   77      | '='
+
+   78 INSTRUCCIONES: IF_INSTRUCCION
+
+   79 REPETICION_INSTRUCCION: WHILE RELOP_EXPRESION DO INSTRUCCIONES
+
+   80 IF_INSTRUCCION: IF RELOP_EXPRESION THEN INSTRUCCIONES
+   81               | IF RELOP_EXPRESION THEN INSTRUCCIONES ELSE INSTRUCCIONES
+
+   82 RELOP_EXPRESION: RELOP_EXPRESION OR RELOP_AND
+   83                | RELOP_AND
+
+   84 RELOP_AND: RELOP_AND AND RELOP_NOT
+   85          | RELOP_NOT
+
+   86 RELOP_NOT: NOT RELOP_NOT
+   87          | RELOP_PAREN
+
+   88 RELOP_PAREN: '(' RELOP_EXPRESION ')'
+   89            | RELOP_EXPRESION_SIMPLE
+
+   90 RELOP_EXPRESION_SIMPLE: EXPRESION RELOP_EXPRESION
+
+
+Estado 11 conflictos: 3 reducción(ones)/reducción(ones)
+Estado 24 conflictos: 3 reducción(ones)/reducción(ones)
+Estado 134 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 136 conflictos: 1 desplazamiento(s)/reducción(ones)
+
+
+Gramática
+
+    0 $accept: PROGRAMA $end
+
+    1 $@1: /* vacío */
+
+    2 PROGRAMA: PROGRAM IDENTIFICADOR $@1 '(' IDENTIFICADOR_LISTA ')' ';' DECLARACIONES SUBPROGRAMA_DECLARACIONES INSTRUCCION_COMPUESTA '.'
+
+    3 INSTRUCCION_COMPUESTA: BEGINA INSTRUCCIONES_OPCIONALES END
+
+    4 IDENTIFICADOR_LISTA: IDENTIFICADOR
+    5                    | IDENTIFICADOR_LISTA ',' IDENTIFICADOR
+    6                    | /* vacío */
+
+    7 DECLARACIONES: DECLARACIONES_VARIABLES
+    8              | DECLARACIONES_CONSTANTES
+
+    9 DECLARACIONES_VARIABLES: DECLARACIONES_VARIABLES VAR IDENTIFICADOR_LISTA ':' TIPO ';'
+   10                        | /* vacío */
+
+   11 DECLARACIONES_CONSTANTES: DECLARACIONES_CONSTANTES CONST IDENTIFICADOR '=' CONSTANTE_ENTERA ';'
+   12                         | DECLARACIONES_CONSTANTES CONST IDENTIFICADOR '=' CONSTANTE_REAL ';'
+   13                         | DECLARACIONES_CONSTANTES CONST IDENTIFICADOR '=' CONSTANTE_CADENA ';'
+   14                         | /* vacío */
+
+   15 TIPO: ESTANDAR_TIPO
+   16     | ARRAY '[' CONSTANTE_ENTERA '.' '.' CONSTANTE_ENTERA ']' OF ESTANDAR_TIPO
+
+   17 ESTANDAR_TIPO: INT_TIPO
+   18              | REAL_TIPO
+   19              | STRING_TIPO
+   20              | BOOLEANO_TIPO
+
+   21 SUBPROGRAMA_DECLARACIONES: SUBPROGRAMA_DECLARACIONES SUBPROGRAMA_DECLARACION ';'
+   22                          | /* vacío */
+
+   23 SUBPROGRAMA_DECLARACION: SUBPROGRAMA_ENCABEZADO DECLARACIONES SUBPROGRAMA_DECLARACIONES INSTRUCCION_COMPUESTA
+
+   24 SUBPROGRAMA_ENCABEZADO: FUNCTION IDENTIFICADOR ARGUMENTOS ':' ESTANDAR_TIPO ';'
+   25                       | PROCEDURE IDENTIFICADOR ARGUMENTOS ';'
+
+   26 ARGUMENTOS: '(' PARAMETROS_LISTA ')'
+   27           | /* vacío */
+
+   28 PARAMETROS_LISTA: IDENTIFICADOR_LISTA ':' TIPO
+   29                 | PARAMETROS_LISTA ';' IDENTIFICADOR_LISTA ':' TIPO
+
+   30 INSTRUCCIONES_OPCIONALES: INSTRUCCIONES_LISTA
+   31                         | /* vacío */
+
+   32 INSTRUCCIONES_LISTA: INSTRUCCIONES
+   33                    | INSTRUCCIONES_LISTA ';' INSTRUCCIONES
+
+   34 INSTRUCCIONES: VARIABLE_ASIGNACION
+   35              | PROCEDURE_INSTRUCCION
+   36              | INSTRUCCION_COMPUESTA
+   37              | REPETICION_INSTRUCCION
+   38              | LECTURA_INSTRUCCION
+   39              | ESCRITURA_INSTRUCCION
+
+   40 REPETICION_INSTRUCCION: FOR FOR_ASIGNACION TO EXPRESION DO INSTRUCCIONES
+   41                       | FOR FOR_ASIGNACION DOWNTO EXPRESION DO INSTRUCCIONES
+
+   42 LECTURA_INSTRUCCION: READ '(' IDENTIFICADOR ')'
+   43                    | READLN '(' IDENTIFICADOR ')'
+
+   44 ESCRITURA_INSTRUCCION: WRITE '(' CONSTANTE_CADENA ',' IDENTIFICADOR ')'
+   45                      | WRITELN '(' CONSTANTE_CADENA ',' IDENTIFICADOR ')'
+   46                      | WRITE '(' CONSTANTE_CADENA ')'
+   47                      | WRITELN '(' CONSTANTE_CADENA ')'
+   48                      | WRITE '(' CONSTANTE_CADENA ',' EXPRESION ')'
+   49                      | WRITELN '(' CONSTANTE_CADENA ',' EXPRESION ')'
+
+   50 VARIABLE_ASIGNACION: VARIABLE ':' '=' EXPRESION
+
+   51 FOR_ASIGNACION: VARIABLE_ASIGNACION
+   52               | VARIABLE
+
+   53 VARIABLE: IDENTIFICADOR
+   54         | IDENTIFICADOR '[' EXPRESION ']'
+
+   55 PROCEDURE_INSTRUCCION: IDENTIFICADOR
+   56                      | IDENTIFICADOR '(' EXPRESION_LISTA ')'
+
+   57 EXPRESION_LISTA: EXPRESION
+   58                | EXPRESION_LISTA ',' EXPRESION
+
+   59 EXPRESION: TERMINO
+   60          | EXPRESION ADDOP TERMINO
+
+   61 TERMINO: FACTOR
+   62        | TERMINO MULOP FACTOR
+
+   63 LLAMADO_FUNCION: IDENTIFICADOR '(' EXPRESION_LISTA ')'
+
+   64 FACTOR: IDENTIFICADOR
+   65       | IDENTIFICADOR '[' EXPRESION ']'
+   66       | LLAMADO_FUNCION
+   67       | CONSTANTE_ENTERA
+   68       | CONSTANTE_REAL
+   69       | ADDOP FACTOR
+   70       | '(' EXPRESION ')'
+
+
+Terminales con las reglas donde aparecen
+
+$end (0) 0
+'(' (40) 2 26 42 43 44 45 46 47 48 49 56 63 70
+')' (41) 2 26 42 43 44 45 46 47 48 49 56 63 70
+',' (44) 5 44 45 48 49 58
+'.' (46) 2 16
+':' (58) 9 24 28 29 50
+';' (59) 2 9 11 12 13 21 24 25 29 33
+'<' (60)
+'=' (61) 11 12 13 50
+'>' (62)
+'[' (91) 16 54 65
+']' (93) 16 54 65
+error (256)
+PROGRAM (258) 2
+INT_TIPO (259) 17
+REAL_TIPO (260) 18
+STRING_TIPO (261) 19
+BOOLEANO_TIPO (262) 20
+ADDOP (263) 60 69
+MULOP (264) 62
+VAR (265) 9
+CONST (266) 11 12 13
+ARRAY (267) 16
+OF (268) 16
+FUNCTION (269) 24
+PROCEDURE (270) 25
+BEGINA (271) 3
+END (272) 3
+WHILE (273)
+DO (274) 40 41
+TO (275) 40
+FOR (276) 40 41
+READ (277) 42
+DOWNTO (278) 41
+READLN (279) 43
+WRITE (280) 44 46 48
+WRITELN (281) 45 47 49
+IF (282)
+ELSE (283)
+THEN (284)
+AND (285)
+OR (286)
+NOT (287)
+CONSTANTE_CADENA (288) 13 44 45 46 47 48 49
+CONSTANTE_ENTERA (289) 11 16 67
+CONSTANTE_REAL (290) 12 68
+IDENTIFICADOR (291) 2 4 5 11 12 13 24 25 42 43 44 45 53 54 55 56 63
+    64 65
+
+
+No terminales con las reglas donde aparecen
+
+$accept (48)
+    en la izquierda: 0
+PROGRAMA (49)
+    en la izquierda: 2, en la derecha: 0
+$@1 (50)
+    en la izquierda: 1, en la derecha: 2
+INSTRUCCION_COMPUESTA (51)
+    en la izquierda: 3, en la derecha: 2 23 36
+IDENTIFICADOR_LISTA (52)
+    en la izquierda: 4 5 6, en la derecha: 2 5 9 28 29
+DECLARACIONES (53)
+    en la izquierda: 7 8, en la derecha: 2 23
+DECLARACIONES_VARIABLES (54)
+    en la izquierda: 9 10, en la derecha: 7 9
+DECLARACIONES_CONSTANTES (55)
+    en la izquierda: 11 12 13 14, en la derecha: 8 11 12 13
+TIPO (56)
+    en la izquierda: 15 16, en la derecha: 9 28 29
+ESTANDAR_TIPO (57)
+    en la izquierda: 17 18 19 20, en la derecha: 15 16 24
+SUBPROGRAMA_DECLARACIONES (58)
+    en la izquierda: 21 22, en la derecha: 2 21 23
+SUBPROGRAMA_DECLARACION (59)
+    en la izquierda: 23, en la derecha: 21
+SUBPROGRAMA_ENCABEZADO (60)
+    en la izquierda: 24 25, en la derecha: 23
+ARGUMENTOS (61)
+    en la izquierda: 26 27, en la derecha: 24 25
+PARAMETROS_LISTA (62)
+    en la izquierda: 28 29, en la derecha: 26 29
+INSTRUCCIONES_OPCIONALES (63)
+    en la izquierda: 30 31, en la derecha: 3
+INSTRUCCIONES_LISTA (64)
+    en la izquierda: 32 33, en la derecha: 30 33
+INSTRUCCIONES (65)
+    en la izquierda: 34 35 36 37 38 39, en la derecha: 32 33 40 41
+REPETICION_INSTRUCCION (66)
+    en la izquierda: 40 41, en la derecha: 37
+LECTURA_INSTRUCCION (67)
+    en la izquierda: 42 43, en la derecha: 38
+ESCRITURA_INSTRUCCION (68)
+    en la izquierda: 44 45 46 47 48 49, en la derecha: 39
+VARIABLE_ASIGNACION (69)
+    en la izquierda: 50, en la derecha: 34 51
+FOR_ASIGNACION (70)
+    en la izquierda: 51 52, en la derecha: 40 41
+VARIABLE (71)
+    en la izquierda: 53 54, en la derecha: 50 52
+PROCEDURE_INSTRUCCION (72)
+    en la izquierda: 55 56, en la derecha: 35
+EXPRESION_LISTA (73)
+    en la izquierda: 57 58, en la derecha: 56 58 63
+EXPRESION (74)
+    en la izquierda: 59 60, en la derecha: 40 41 48 49 50 54 57 58
+    60 65 70
+TERMINO (75)
+    en la izquierda: 61 62, en la derecha: 59 60 62
+LLAMADO_FUNCION (76)
+    en la izquierda: 63, en la derecha: 66
+FACTOR (77)
+    en la izquierda: 64 65 66 67 68 69 70, en la derecha: 61 62 69
+
+
+estado 0
+
+    0 $accept: . PROGRAMA $end
+
+    PROGRAM  desplazar e ir al estado 1
+
+    PROGRAMA  ir al estado 2
+
+
+estado 1
+
+    2 PROGRAMA: PROGRAM . IDENTIFICADOR $@1 '(' IDENTIFICADOR_LISTA ')' ';' DECLARACIONES SUBPROGRAMA_DECLARACIONES INSTRUCCION_COMPUESTA '.'
+
+    IDENTIFICADOR  desplazar e ir al estado 3
+
+
+estado 2
+
+    0 $accept: PROGRAMA . $end
+
+    $end  desplazar e ir al estado 4
+
+
+estado 3
+
+    2 PROGRAMA: PROGRAM IDENTIFICADOR . $@1 '(' IDENTIFICADOR_LISTA ')' ';' DECLARACIONES SUBPROGRAMA_DECLARACIONES INSTRUCCION_COMPUESTA '.'
+
+    $default  reduce usando la regla 1 ($@1)
+
+    $@1  ir al estado 5
+
+
+estado 4
+
+    0 $accept: PROGRAMA $end .
+
+    $default  aceptar
+
+
+estado 5
+
+    2 PROGRAMA: PROGRAM IDENTIFICADOR $@1 . '(' IDENTIFICADOR_LISTA ')' ';' DECLARACIONES SUBPROGRAMA_DECLARACIONES INSTRUCCION_COMPUESTA '.'
+
+    '('  desplazar e ir al estado 6
+
+
+estado 6
+
+    2 PROGRAMA: PROGRAM IDENTIFICADOR $@1 '(' . IDENTIFICADOR_LISTA ')' ';' DECLARACIONES SUBPROGRAMA_DECLARACIONES INSTRUCCION_COMPUESTA '.'
+
+    IDENTIFICADOR  desplazar e ir al estado 7
+
+    $default  reduce usando la regla 6 (IDENTIFICADOR_LISTA)
+
+    IDENTIFICADOR_LISTA  ir al estado 8
+
+
+estado 7
+
+    4 IDENTIFICADOR_LISTA: IDENTIFICADOR .
+
+    $default  reduce usando la regla 4 (IDENTIFICADOR_LISTA)
+
+
+estado 8
+
+    2 PROGRAMA: PROGRAM IDENTIFICADOR $@1 '(' IDENTIFICADOR_LISTA . ')' ';' DECLARACIONES SUBPROGRAMA_DECLARACIONES INSTRUCCION_COMPUESTA '.'
+    5 IDENTIFICADOR_LISTA: IDENTIFICADOR_LISTA . ',' IDENTIFICADOR
+
+    ')'  desplazar e ir al estado 9
+    ','  desplazar e ir al estado 10
+
+
+estado 9
+
+    2 PROGRAMA: PROGRAM IDENTIFICADOR $@1 '(' IDENTIFICADOR_LISTA ')' . ';' DECLARACIONES SUBPROGRAMA_DECLARACIONES INSTRUCCION_COMPUESTA '.'
+
+    ';'  desplazar e ir al estado 11
+
+
+estado 10
+
+    5 IDENTIFICADOR_LISTA: IDENTIFICADOR_LISTA ',' . IDENTIFICADOR
+
+    IDENTIFICADOR  desplazar e ir al estado 12
+
+
+estado 11
+
+    2 PROGRAMA: PROGRAM IDENTIFICADOR $@1 '(' IDENTIFICADOR_LISTA ')' ';' . DECLARACIONES SUBPROGRAMA_DECLARACIONES INSTRUCCION_COMPUESTA '.'
+
+    CONST      reduce usando la regla 14 (DECLARACIONES_CONSTANTES)
+    FUNCTION   reduce usando la regla 10 (DECLARACIONES_VARIABLES)
+    FUNCTION   [reduce usando la regla 14 (DECLARACIONES_CONSTANTES)]
+    PROCEDURE  reduce usando la regla 10 (DECLARACIONES_VARIABLES)
+    PROCEDURE  [reduce usando la regla 14 (DECLARACIONES_CONSTANTES)]
+    BEGINA     reduce usando la regla 10 (DECLARACIONES_VARIABLES)
+    BEGINA     [reduce usando la regla 14 (DECLARACIONES_CONSTANTES)]
+    $default   reduce usando la regla 10 (DECLARACIONES_VARIABLES)
+
+    DECLARACIONES             ir al estado 13
+    DECLARACIONES_VARIABLES   ir al estado 14
+    DECLARACIONES_CONSTANTES  ir al estado 15
+
+
+estado 12
+
+    5 IDENTIFICADOR_LISTA: IDENTIFICADOR_LISTA ',' IDENTIFICADOR .
+
+    $default  reduce usando la regla 5 (IDENTIFICADOR_LISTA)
+
+
+estado 13
+
+    2 PROGRAMA: PROGRAM IDENTIFICADOR $@1 '(' IDENTIFICADOR_LISTA ')' ';' DECLARACIONES . SUBPROGRAMA_DECLARACIONES INSTRUCCION_COMPUESTA '.'
+
+    $default  reduce usando la regla 22 (SUBPROGRAMA_DECLARACIONES)
+
+    SUBPROGRAMA_DECLARACIONES  ir al estado 16
+
+
+estado 14
+
+    7 DECLARACIONES: DECLARACIONES_VARIABLES .
+    9 DECLARACIONES_VARIABLES: DECLARACIONES_VARIABLES . VAR IDENTIFICADOR_LISTA ':' TIPO ';'
+
+    VAR  desplazar e ir al estado 17
+
+    $default  reduce usando la regla 7 (DECLARACIONES)
+
+
+estado 15
+
+    8 DECLARACIONES: DECLARACIONES_CONSTANTES .
+   11 DECLARACIONES_CONSTANTES: DECLARACIONES_CONSTANTES . CONST IDENTIFICADOR '=' CONSTANTE_ENTERA ';'
+   12                         | DECLARACIONES_CONSTANTES . CONST IDENTIFICADOR '=' CONSTANTE_REAL ';'
+   13                         | DECLARACIONES_CONSTANTES . CONST IDENTIFICADOR '=' CONSTANTE_CADENA ';'
+
+    CONST  desplazar e ir al estado 18
+
+    $default  reduce usando la regla 8 (DECLARACIONES)
+
+
+estado 16
+
+    2 PROGRAMA: PROGRAM IDENTIFICADOR $@1 '(' IDENTIFICADOR_LISTA ')' ';' DECLARACIONES SUBPROGRAMA_DECLARACIONES . INSTRUCCION_COMPUESTA '.'
+   21 SUBPROGRAMA_DECLARACIONES: SUBPROGRAMA_DECLARACIONES . SUBPROGRAMA_DECLARACION ';'
+
+    FUNCTION   desplazar e ir al estado 19
+    PROCEDURE  desplazar e ir al estado 20
+    BEGINA     desplazar e ir al estado 21
+
+    INSTRUCCION_COMPUESTA    ir al estado 22
+    SUBPROGRAMA_DECLARACION  ir al estado 23
+    SUBPROGRAMA_ENCABEZADO   ir al estado 24
+
+
+estado 17
+
+    9 DECLARACIONES_VARIABLES: DECLARACIONES_VARIABLES VAR . IDENTIFICADOR_LISTA ':' TIPO ';'
+
+    IDENTIFICADOR  desplazar e ir al estado 7
+
+    $default  reduce usando la regla 6 (IDENTIFICADOR_LISTA)
+
+    IDENTIFICADOR_LISTA  ir al estado 25
+
+
+estado 18
+
+   11 DECLARACIONES_CONSTANTES: DECLARACIONES_CONSTANTES CONST . IDENTIFICADOR '=' CONSTANTE_ENTERA ';'
+   12                         | DECLARACIONES_CONSTANTES CONST . IDENTIFICADOR '=' CONSTANTE_REAL ';'
+   13                         | DECLARACIONES_CONSTANTES CONST . IDENTIFICADOR '=' CONSTANTE_CADENA ';'
+
+    IDENTIFICADOR  desplazar e ir al estado 26
+
+
+estado 19
+
+   24 SUBPROGRAMA_ENCABEZADO: FUNCTION . IDENTIFICADOR ARGUMENTOS ':' ESTANDAR_TIPO ';'
+
+    IDENTIFICADOR  desplazar e ir al estado 27
+
+
+estado 20
+
+   25 SUBPROGRAMA_ENCABEZADO: PROCEDURE . IDENTIFICADOR ARGUMENTOS ';'
+
+    IDENTIFICADOR  desplazar e ir al estado 28
+
+
+estado 21
+
+    3 INSTRUCCION_COMPUESTA: BEGINA . INSTRUCCIONES_OPCIONALES END
+
+    BEGINA         desplazar e ir al estado 21
+    FOR            desplazar e ir al estado 29
+    READ           desplazar e ir al estado 30
+    READLN         desplazar e ir al estado 31
+    WRITE          desplazar e ir al estado 32
+    WRITELN        desplazar e ir al estado 33
+    IDENTIFICADOR  desplazar e ir al estado 34
+
+    $default  reduce usando la regla 31 (INSTRUCCIONES_OPCIONALES)
+
+    INSTRUCCION_COMPUESTA     ir al estado 35
+    INSTRUCCIONES_OPCIONALES  ir al estado 36
+    INSTRUCCIONES_LISTA       ir al estado 37
+    INSTRUCCIONES             ir al estado 38
+    REPETICION_INSTRUCCION    ir al estado 39
+    LECTURA_INSTRUCCION       ir al estado 40
+    ESCRITURA_INSTRUCCION     ir al estado 41
+    VARIABLE_ASIGNACION       ir al estado 42
+    VARIABLE                  ir al estado 43
+    PROCEDURE_INSTRUCCION     ir al estado 44
+
+
+estado 22
+
+    2 PROGRAMA: PROGRAM IDENTIFICADOR $@1 '(' IDENTIFICADOR_LISTA ')' ';' DECLARACIONES SUBPROGRAMA_DECLARACIONES INSTRUCCION_COMPUESTA . '.'
+
+    '.'  desplazar e ir al estado 45
+
+
+estado 23
+
+   21 SUBPROGRAMA_DECLARACIONES: SUBPROGRAMA_DECLARACIONES SUBPROGRAMA_DECLARACION . ';'
+
+    ';'  desplazar e ir al estado 46
+
+
+estado 24
+
+   23 SUBPROGRAMA_DECLARACION: SUBPROGRAMA_ENCABEZADO . DECLARACIONES SUBPROGRAMA_DECLARACIONES INSTRUCCION_COMPUESTA
+
+    CONST      reduce usando la regla 14 (DECLARACIONES_CONSTANTES)
+    FUNCTION   reduce usando la regla 10 (DECLARACIONES_VARIABLES)
+    FUNCTION   [reduce usando la regla 14 (DECLARACIONES_CONSTANTES)]
+    PROCEDURE  reduce usando la regla 10 (DECLARACIONES_VARIABLES)
+    PROCEDURE  [reduce usando la regla 14 (DECLARACIONES_CONSTANTES)]
+    BEGINA     reduce usando la regla 10 (DECLARACIONES_VARIABLES)
+    BEGINA     [reduce usando la regla 14 (DECLARACIONES_CONSTANTES)]
+    $default   reduce usando la regla 10 (DECLARACIONES_VARIABLES)
+
+    DECLARACIONES             ir al estado 47
+    DECLARACIONES_VARIABLES   ir al estado 14
+    DECLARACIONES_CONSTANTES  ir al estado 15
+
+
+estado 25
+
+    5 IDENTIFICADOR_LISTA: IDENTIFICADOR_LISTA . ',' IDENTIFICADOR
+    9 DECLARACIONES_VARIABLES: DECLARACIONES_VARIABLES VAR IDENTIFICADOR_LISTA . ':' TIPO ';'
+
+    ','  desplazar e ir al estado 10
+    ':'  desplazar e ir al estado 48
+
+
+estado 26
+
+   11 DECLARACIONES_CONSTANTES: DECLARACIONES_CONSTANTES CONST IDENTIFICADOR . '=' CONSTANTE_ENTERA ';'
+   12                         | DECLARACIONES_CONSTANTES CONST IDENTIFICADOR . '=' CONSTANTE_REAL ';'
+   13                         | DECLARACIONES_CONSTANTES CONST IDENTIFICADOR . '=' CONSTANTE_CADENA ';'
+
+    '='  desplazar e ir al estado 49
+
+
+estado 27
+
+   24 SUBPROGRAMA_ENCABEZADO: FUNCTION IDENTIFICADOR . ARGUMENTOS ':' ESTANDAR_TIPO ';'
+
+    '('  desplazar e ir al estado 50
+
+    $default  reduce usando la regla 27 (ARGUMENTOS)
+
+    ARGUMENTOS  ir al estado 51
+
+
+estado 28
+
+   25 SUBPROGRAMA_ENCABEZADO: PROCEDURE IDENTIFICADOR . ARGUMENTOS ';'
+
+    '('  desplazar e ir al estado 50
+
+    $default  reduce usando la regla 27 (ARGUMENTOS)
+
+    ARGUMENTOS  ir al estado 52
+
+
+estado 29
+
+   40 REPETICION_INSTRUCCION: FOR . FOR_ASIGNACION TO EXPRESION DO INSTRUCCIONES
+   41                       | FOR . FOR_ASIGNACION DOWNTO EXPRESION DO INSTRUCCIONES
+
+    IDENTIFICADOR  desplazar e ir al estado 53
+
+    VARIABLE_ASIGNACION  ir al estado 54
+    FOR_ASIGNACION       ir al estado 55
+    VARIABLE             ir al estado 56
+
+
+estado 30
+
+   42 LECTURA_INSTRUCCION: READ . '(' IDENTIFICADOR ')'
+
+    '('  desplazar e ir al estado 57
+
+
+estado 31
+
+   43 LECTURA_INSTRUCCION: READLN . '(' IDENTIFICADOR ')'
+
+    '('  desplazar e ir al estado 58
+
+
+estado 32
+
+   44 ESCRITURA_INSTRUCCION: WRITE . '(' CONSTANTE_CADENA ',' IDENTIFICADOR ')'
+   46                      | WRITE . '(' CONSTANTE_CADENA ')'
+   48                      | WRITE . '(' CONSTANTE_CADENA ',' EXPRESION ')'
+
+    '('  desplazar e ir al estado 59
+
+
+estado 33
+
+   45 ESCRITURA_INSTRUCCION: WRITELN . '(' CONSTANTE_CADENA ',' IDENTIFICADOR ')'
+   47                      | WRITELN . '(' CONSTANTE_CADENA ')'
+   49                      | WRITELN . '(' CONSTANTE_CADENA ',' EXPRESION ')'
+
+    '('  desplazar e ir al estado 60
+
+
+estado 34
+
+   53 VARIABLE: IDENTIFICADOR .
+   54         | IDENTIFICADOR . '[' EXPRESION ']'
+   55 PROCEDURE_INSTRUCCION: IDENTIFICADOR .
+   56                      | IDENTIFICADOR . '(' EXPRESION_LISTA ')'
+
+    '('  desplazar e ir al estado 61
+    '['  desplazar e ir al estado 62
+
+    ':'       reduce usando la regla 53 (VARIABLE)
+    $default  reduce usando la regla 55 (PROCEDURE_INSTRUCCION)
+
+
+estado 35
+
+   36 INSTRUCCIONES: INSTRUCCION_COMPUESTA .
+
+    $default  reduce usando la regla 36 (INSTRUCCIONES)
+
+
+estado 36
+
+    3 INSTRUCCION_COMPUESTA: BEGINA INSTRUCCIONES_OPCIONALES . END
+
+    END  desplazar e ir al estado 63
+
+
+estado 37
+
+   30 INSTRUCCIONES_OPCIONALES: INSTRUCCIONES_LISTA .
+   33 INSTRUCCIONES_LISTA: INSTRUCCIONES_LISTA . ';' INSTRUCCIONES
+
+    ';'  desplazar e ir al estado 64
+
+    $default  reduce usando la regla 30 (INSTRUCCIONES_OPCIONALES)
+
+
+estado 38
+
+   32 INSTRUCCIONES_LISTA: INSTRUCCIONES .
+
+    $default  reduce usando la regla 32 (INSTRUCCIONES_LISTA)
+
+
+estado 39
+
+   37 INSTRUCCIONES: REPETICION_INSTRUCCION .
+
+    $default  reduce usando la regla 37 (INSTRUCCIONES)
+
+
+estado 40
+
+   38 INSTRUCCIONES: LECTURA_INSTRUCCION .
+
+    $default  reduce usando la regla 38 (INSTRUCCIONES)
+
+
+estado 41
+
+   39 INSTRUCCIONES: ESCRITURA_INSTRUCCION .
+
+    $default  reduce usando la regla 39 (INSTRUCCIONES)
+
+
+estado 42
+
+   34 INSTRUCCIONES: VARIABLE_ASIGNACION .
+
+    $default  reduce usando la regla 34 (INSTRUCCIONES)
+
+
+estado 43
+
+   50 VARIABLE_ASIGNACION: VARIABLE . ':' '=' EXPRESION
+
+    ':'  desplazar e ir al estado 65
+
+
+estado 44
+
+   35 INSTRUCCIONES: PROCEDURE_INSTRUCCION .
+
+    $default  reduce usando la regla 35 (INSTRUCCIONES)
+
+
+estado 45
+
+    2 PROGRAMA: PROGRAM IDENTIFICADOR $@1 '(' IDENTIFICADOR_LISTA ')' ';' DECLARACIONES SUBPROGRAMA_DECLARACIONES INSTRUCCION_COMPUESTA '.' .
+
+    $default  reduce usando la regla 2 (PROGRAMA)
+
+
+estado 46
+
+   21 SUBPROGRAMA_DECLARACIONES: SUBPROGRAMA_DECLARACIONES SUBPROGRAMA_DECLARACION ';' .
+
+    $default  reduce usando la regla 21 (SUBPROGRAMA_DECLARACIONES)
+
+
+estado 47
+
+   23 SUBPROGRAMA_DECLARACION: SUBPROGRAMA_ENCABEZADO DECLARACIONES . SUBPROGRAMA_DECLARACIONES INSTRUCCION_COMPUESTA
+
+    $default  reduce usando la regla 22 (SUBPROGRAMA_DECLARACIONES)
+
+    SUBPROGRAMA_DECLARACIONES  ir al estado 66
+
+
+estado 48
+
+    9 DECLARACIONES_VARIABLES: DECLARACIONES_VARIABLES VAR IDENTIFICADOR_LISTA ':' . TIPO ';'
+
+    INT_TIPO       desplazar e ir al estado 67
+    REAL_TIPO      desplazar e ir al estado 68
+    STRING_TIPO    desplazar e ir al estado 69
+    BOOLEANO_TIPO  desplazar e ir al estado 70
+    ARRAY          desplazar e ir al estado 71
+
+    TIPO           ir al estado 72
+    ESTANDAR_TIPO  ir al estado 73
+
+
+estado 49
+
+   11 DECLARACIONES_CONSTANTES: DECLARACIONES_CONSTANTES CONST IDENTIFICADOR '=' . CONSTANTE_ENTERA ';'
+   12                         | DECLARACIONES_CONSTANTES CONST IDENTIFICADOR '=' . CONSTANTE_REAL ';'
+   13                         | DECLARACIONES_CONSTANTES CONST IDENTIFICADOR '=' . CONSTANTE_CADENA ';'
+
+    CONSTANTE_CADENA  desplazar e ir al estado 74
+    CONSTANTE_ENTERA  desplazar e ir al estado 75
+    CONSTANTE_REAL    desplazar e ir al estado 76
+
+
+estado 50
+
+   26 ARGUMENTOS: '(' . PARAMETROS_LISTA ')'
+
+    IDENTIFICADOR  desplazar e ir al estado 7
+
+    $default  reduce usando la regla 6 (IDENTIFICADOR_LISTA)
+
+    IDENTIFICADOR_LISTA  ir al estado 77
+    PARAMETROS_LISTA     ir al estado 78
+
+
+estado 51
+
+   24 SUBPROGRAMA_ENCABEZADO: FUNCTION IDENTIFICADOR ARGUMENTOS . ':' ESTANDAR_TIPO ';'
+
+    ':'  desplazar e ir al estado 79
+
+
+estado 52
+
+   25 SUBPROGRAMA_ENCABEZADO: PROCEDURE IDENTIFICADOR ARGUMENTOS . ';'
+
+    ';'  desplazar e ir al estado 80
+
+
+estado 53
+
+   53 VARIABLE: IDENTIFICADOR .
+   54         | IDENTIFICADOR . '[' EXPRESION ']'
+
+    '['  desplazar e ir al estado 62
+
+    $default  reduce usando la regla 53 (VARIABLE)
+
+
+estado 54
+
+   51 FOR_ASIGNACION: VARIABLE_ASIGNACION .
+
+    $default  reduce usando la regla 51 (FOR_ASIGNACION)
+
+
+estado 55
+
+   40 REPETICION_INSTRUCCION: FOR FOR_ASIGNACION . TO EXPRESION DO INSTRUCCIONES
+   41                       | FOR FOR_ASIGNACION . DOWNTO EXPRESION DO INSTRUCCIONES
+
+    TO      desplazar e ir al estado 81
+    DOWNTO  desplazar e ir al estado 82
+
+
+estado 56
+
+   50 VARIABLE_ASIGNACION: VARIABLE . ':' '=' EXPRESION
+   52 FOR_ASIGNACION: VARIABLE .
+
+    ':'  desplazar e ir al estado 65
+
+    $default  reduce usando la regla 52 (FOR_ASIGNACION)
+
+
+estado 57
+
+   42 LECTURA_INSTRUCCION: READ '(' . IDENTIFICADOR ')'
+
+    IDENTIFICADOR  desplazar e ir al estado 83
+
+
+estado 58
+
+   43 LECTURA_INSTRUCCION: READLN '(' . IDENTIFICADOR ')'
+
+    IDENTIFICADOR  desplazar e ir al estado 84
+
+
+estado 59
+
+   44 ESCRITURA_INSTRUCCION: WRITE '(' . CONSTANTE_CADENA ',' IDENTIFICADOR ')'
+   46                      | WRITE '(' . CONSTANTE_CADENA ')'
+   48                      | WRITE '(' . CONSTANTE_CADENA ',' EXPRESION ')'
+
+    CONSTANTE_CADENA  desplazar e ir al estado 85
+
+
+estado 60
+
+   45 ESCRITURA_INSTRUCCION: WRITELN '(' . CONSTANTE_CADENA ',' IDENTIFICADOR ')'
+   47                      | WRITELN '(' . CONSTANTE_CADENA ')'
+   49                      | WRITELN '(' . CONSTANTE_CADENA ',' EXPRESION ')'
+
+    CONSTANTE_CADENA  desplazar e ir al estado 86
+
+
+estado 61
+
+   56 PROCEDURE_INSTRUCCION: IDENTIFICADOR '(' . EXPRESION_LISTA ')'
+
+    ADDOP             desplazar e ir al estado 87
+    CONSTANTE_ENTERA  desplazar e ir al estado 88
+    CONSTANTE_REAL    desplazar e ir al estado 89
+    IDENTIFICADOR     desplazar e ir al estado 90
+    '('               desplazar e ir al estado 91
+
+    EXPRESION_LISTA  ir al estado 92
+    EXPRESION        ir al estado 93
+    TERMINO          ir al estado 94
+    LLAMADO_FUNCION  ir al estado 95
+    FACTOR           ir al estado 96
+
+
+estado 62
+
+   54 VARIABLE: IDENTIFICADOR '[' . EXPRESION ']'
+
+    ADDOP             desplazar e ir al estado 87
+    CONSTANTE_ENTERA  desplazar e ir al estado 88
+    CONSTANTE_REAL    desplazar e ir al estado 89
+    IDENTIFICADOR     desplazar e ir al estado 90
+    '('               desplazar e ir al estado 91
+
+    EXPRESION        ir al estado 97
+    TERMINO          ir al estado 94
+    LLAMADO_FUNCION  ir al estado 95
+    FACTOR           ir al estado 96
+
+
+estado 63
+
+    3 INSTRUCCION_COMPUESTA: BEGINA INSTRUCCIONES_OPCIONALES END .
+
+    $default  reduce usando la regla 3 (INSTRUCCION_COMPUESTA)
+
+
+estado 64
+
+   33 INSTRUCCIONES_LISTA: INSTRUCCIONES_LISTA ';' . INSTRUCCIONES
+
+    BEGINA         desplazar e ir al estado 21
+    FOR            desplazar e ir al estado 29
+    READ           desplazar e ir al estado 30
+    READLN         desplazar e ir al estado 31
+    WRITE          desplazar e ir al estado 32
+    WRITELN        desplazar e ir al estado 33
+    IDENTIFICADOR  desplazar e ir al estado 34
+
+    INSTRUCCION_COMPUESTA   ir al estado 35
+    INSTRUCCIONES           ir al estado 98
+    REPETICION_INSTRUCCION  ir al estado 39
+    LECTURA_INSTRUCCION     ir al estado 40
+    ESCRITURA_INSTRUCCION   ir al estado 41
+    VARIABLE_ASIGNACION     ir al estado 42
+    VARIABLE                ir al estado 43
+    PROCEDURE_INSTRUCCION   ir al estado 44
+
+
+estado 65
+
+   50 VARIABLE_ASIGNACION: VARIABLE ':' . '=' EXPRESION
+
+    '='  desplazar e ir al estado 99
+
+
+estado 66
+
+   21 SUBPROGRAMA_DECLARACIONES: SUBPROGRAMA_DECLARACIONES . SUBPROGRAMA_DECLARACION ';'
+   23 SUBPROGRAMA_DECLARACION: SUBPROGRAMA_ENCABEZADO DECLARACIONES SUBPROGRAMA_DECLARACIONES . INSTRUCCION_COMPUESTA
+
+    FUNCTION   desplazar e ir al estado 19
+    PROCEDURE  desplazar e ir al estado 20
+    BEGINA     desplazar e ir al estado 21
+
+    INSTRUCCION_COMPUESTA    ir al estado 100
+    SUBPROGRAMA_DECLARACION  ir al estado 23
+    SUBPROGRAMA_ENCABEZADO   ir al estado 24
+
+
+estado 67
+
+   17 ESTANDAR_TIPO: INT_TIPO .
+
+    $default  reduce usando la regla 17 (ESTANDAR_TIPO)
+
+
+estado 68
+
+   18 ESTANDAR_TIPO: REAL_TIPO .
+
+    $default  reduce usando la regla 18 (ESTANDAR_TIPO)
+
+
+estado 69
+
+   19 ESTANDAR_TIPO: STRING_TIPO .
+
+    $default  reduce usando la regla 19 (ESTANDAR_TIPO)
+
+
+estado 70
+
+   20 ESTANDAR_TIPO: BOOLEANO_TIPO .
+
+    $default  reduce usando la regla 20 (ESTANDAR_TIPO)
+
+
+estado 71
+
+   16 TIPO: ARRAY . '[' CONSTANTE_ENTERA '.' '.' CONSTANTE_ENTERA ']' OF ESTANDAR_TIPO
+
+    '['  desplazar e ir al estado 101
+
+
+estado 72
+
+    9 DECLARACIONES_VARIABLES: DECLARACIONES_VARIABLES VAR IDENTIFICADOR_LISTA ':' TIPO . ';'
+
+    ';'  desplazar e ir al estado 102
+
+
+estado 73
+
+   15 TIPO: ESTANDAR_TIPO .
+
+    $default  reduce usando la regla 15 (TIPO)
+
+
+estado 74
+
+   13 DECLARACIONES_CONSTANTES: DECLARACIONES_CONSTANTES CONST IDENTIFICADOR '=' CONSTANTE_CADENA . ';'
+
+    ';'  desplazar e ir al estado 103
+
+
+estado 75
+
+   11 DECLARACIONES_CONSTANTES: DECLARACIONES_CONSTANTES CONST IDENTIFICADOR '=' CONSTANTE_ENTERA . ';'
+
+    ';'  desplazar e ir al estado 104
+
+
+estado 76
+
+   12 DECLARACIONES_CONSTANTES: DECLARACIONES_CONSTANTES CONST IDENTIFICADOR '=' CONSTANTE_REAL . ';'
+
+    ';'  desplazar e ir al estado 105
+
+
+estado 77
+
+    5 IDENTIFICADOR_LISTA: IDENTIFICADOR_LISTA . ',' IDENTIFICADOR
+   28 PARAMETROS_LISTA: IDENTIFICADOR_LISTA . ':' TIPO
+
+    ','  desplazar e ir al estado 10
+    ':'  desplazar e ir al estado 106
+
+
+estado 78
+
+   26 ARGUMENTOS: '(' PARAMETROS_LISTA . ')'
+   29 PARAMETROS_LISTA: PARAMETROS_LISTA . ';' IDENTIFICADOR_LISTA ':' TIPO
+
+    ')'  desplazar e ir al estado 107
+    ';'  desplazar e ir al estado 108
+
+
+estado 79
+
+   24 SUBPROGRAMA_ENCABEZADO: FUNCTION IDENTIFICADOR ARGUMENTOS ':' . ESTANDAR_TIPO ';'
+
+    INT_TIPO       desplazar e ir al estado 67
+    REAL_TIPO      desplazar e ir al estado 68
+    STRING_TIPO    desplazar e ir al estado 69
+    BOOLEANO_TIPO  desplazar e ir al estado 70
+
+    ESTANDAR_TIPO  ir al estado 109
+
+
+estado 80
+
+   25 SUBPROGRAMA_ENCABEZADO: PROCEDURE IDENTIFICADOR ARGUMENTOS ';' .
+
+    $default  reduce usando la regla 25 (SUBPROGRAMA_ENCABEZADO)
+
+
+estado 81
+
+   40 REPETICION_INSTRUCCION: FOR FOR_ASIGNACION TO . EXPRESION DO INSTRUCCIONES
+
+    ADDOP             desplazar e ir al estado 87
+    CONSTANTE_ENTERA  desplazar e ir al estado 88
+    CONSTANTE_REAL    desplazar e ir al estado 89
+    IDENTIFICADOR     desplazar e ir al estado 90
+    '('               desplazar e ir al estado 91
+
+    EXPRESION        ir al estado 110
+    TERMINO          ir al estado 94
+    LLAMADO_FUNCION  ir al estado 95
+    FACTOR           ir al estado 96
+
+
+estado 82
+
+   41 REPETICION_INSTRUCCION: FOR FOR_ASIGNACION DOWNTO . EXPRESION DO INSTRUCCIONES
+
+    ADDOP             desplazar e ir al estado 87
+    CONSTANTE_ENTERA  desplazar e ir al estado 88
+    CONSTANTE_REAL    desplazar e ir al estado 89
+    IDENTIFICADOR     desplazar e ir al estado 90
+    '('               desplazar e ir al estado 91
+
+    EXPRESION        ir al estado 111
+    TERMINO          ir al estado 94
+    LLAMADO_FUNCION  ir al estado 95
+    FACTOR           ir al estado 96
+
+
+estado 83
+
+   42 LECTURA_INSTRUCCION: READ '(' IDENTIFICADOR . ')'
+
+    ')'  desplazar e ir al estado 112
+
+
+estado 84
+
+   43 LECTURA_INSTRUCCION: READLN '(' IDENTIFICADOR . ')'
+
+    ')'  desplazar e ir al estado 113
+
+
+estado 85
+
+   44 ESCRITURA_INSTRUCCION: WRITE '(' CONSTANTE_CADENA . ',' IDENTIFICADOR ')'
+   46                      | WRITE '(' CONSTANTE_CADENA . ')'
+   48                      | WRITE '(' CONSTANTE_CADENA . ',' EXPRESION ')'
+
+    ')'  desplazar e ir al estado 114
+    ','  desplazar e ir al estado 115
+
+
+estado 86
+
+   45 ESCRITURA_INSTRUCCION: WRITELN '(' CONSTANTE_CADENA . ',' IDENTIFICADOR ')'
+   47                      | WRITELN '(' CONSTANTE_CADENA . ')'
+   49                      | WRITELN '(' CONSTANTE_CADENA . ',' EXPRESION ')'
+
+    ')'  desplazar e ir al estado 116
+    ','  desplazar e ir al estado 117
+
+
+estado 87
+
+   69 FACTOR: ADDOP . FACTOR
+
+    ADDOP             desplazar e ir al estado 87
+    CONSTANTE_ENTERA  desplazar e ir al estado 88
+    CONSTANTE_REAL    desplazar e ir al estado 89
+    IDENTIFICADOR     desplazar e ir al estado 90
+    '('               desplazar e ir al estado 91
+
+    LLAMADO_FUNCION  ir al estado 95
+    FACTOR           ir al estado 118
+
+
+estado 88
+
+   67 FACTOR: CONSTANTE_ENTERA .
+
+    $default  reduce usando la regla 67 (FACTOR)
+
+
+estado 89
+
+   68 FACTOR: CONSTANTE_REAL .
+
+    $default  reduce usando la regla 68 (FACTOR)
+
+
+estado 90
+
+   63 LLAMADO_FUNCION: IDENTIFICADOR . '(' EXPRESION_LISTA ')'
+   64 FACTOR: IDENTIFICADOR .
+   65       | IDENTIFICADOR . '[' EXPRESION ']'
+
+    '('  desplazar e ir al estado 119
+    '['  desplazar e ir al estado 120
+
+    $default  reduce usando la regla 64 (FACTOR)
+
+
+estado 91
+
+   70 FACTOR: '(' . EXPRESION ')'
+
+    ADDOP             desplazar e ir al estado 87
+    CONSTANTE_ENTERA  desplazar e ir al estado 88
+    CONSTANTE_REAL    desplazar e ir al estado 89
+    IDENTIFICADOR     desplazar e ir al estado 90
+    '('               desplazar e ir al estado 91
+
+    EXPRESION        ir al estado 121
+    TERMINO          ir al estado 94
+    LLAMADO_FUNCION  ir al estado 95
+    FACTOR           ir al estado 96
+
+
+estado 92
+
+   56 PROCEDURE_INSTRUCCION: IDENTIFICADOR '(' EXPRESION_LISTA . ')'
+   58 EXPRESION_LISTA: EXPRESION_LISTA . ',' EXPRESION
+
+    ')'  desplazar e ir al estado 122
+    ','  desplazar e ir al estado 123
+
+
+estado 93
+
+   57 EXPRESION_LISTA: EXPRESION .
+   60 EXPRESION: EXPRESION . ADDOP TERMINO
+
+    ADDOP  desplazar e ir al estado 124
+
+    $default  reduce usando la regla 57 (EXPRESION_LISTA)
+
+
+estado 94
+
+   59 EXPRESION: TERMINO .
+   62 TERMINO: TERMINO . MULOP FACTOR
+
+    MULOP  desplazar e ir al estado 125
+
+    $default  reduce usando la regla 59 (EXPRESION)
+
+
+estado 95
+
+   66 FACTOR: LLAMADO_FUNCION .
+
+    $default  reduce usando la regla 66 (FACTOR)
+
+
+estado 96
+
+   61 TERMINO: FACTOR .
+
+    $default  reduce usando la regla 61 (TERMINO)
+
+
+estado 97
+
+   54 VARIABLE: IDENTIFICADOR '[' EXPRESION . ']'
+   60 EXPRESION: EXPRESION . ADDOP TERMINO
+
+    ADDOP  desplazar e ir al estado 124
+    ']'    desplazar e ir al estado 126
+
+
+estado 98
+
+   33 INSTRUCCIONES_LISTA: INSTRUCCIONES_LISTA ';' INSTRUCCIONES .
+
+    $default  reduce usando la regla 33 (INSTRUCCIONES_LISTA)
+
+
+estado 99
+
+   50 VARIABLE_ASIGNACION: VARIABLE ':' '=' . EXPRESION
+
+    ADDOP             desplazar e ir al estado 87
+    CONSTANTE_ENTERA  desplazar e ir al estado 88
+    CONSTANTE_REAL    desplazar e ir al estado 89
+    IDENTIFICADOR     desplazar e ir al estado 90
+    '('               desplazar e ir al estado 91
+
+    EXPRESION        ir al estado 127
+    TERMINO          ir al estado 94
+    LLAMADO_FUNCION  ir al estado 95
+    FACTOR           ir al estado 96
+
+
+estado 100
+
+   23 SUBPROGRAMA_DECLARACION: SUBPROGRAMA_ENCABEZADO DECLARACIONES SUBPROGRAMA_DECLARACIONES INSTRUCCION_COMPUESTA .
+
+    $default  reduce usando la regla 23 (SUBPROGRAMA_DECLARACION)
+
+
+estado 101
+
+   16 TIPO: ARRAY '[' . CONSTANTE_ENTERA '.' '.' CONSTANTE_ENTERA ']' OF ESTANDAR_TIPO
+
+    CONSTANTE_ENTERA  desplazar e ir al estado 128
+
+
+estado 102
+
+    9 DECLARACIONES_VARIABLES: DECLARACIONES_VARIABLES VAR IDENTIFICADOR_LISTA ':' TIPO ';' .
+
+    $default  reduce usando la regla 9 (DECLARACIONES_VARIABLES)
+
+
+estado 103
+
+   13 DECLARACIONES_CONSTANTES: DECLARACIONES_CONSTANTES CONST IDENTIFICADOR '=' CONSTANTE_CADENA ';' .
+
+    $default  reduce usando la regla 13 (DECLARACIONES_CONSTANTES)
+
+
+estado 104
+
+   11 DECLARACIONES_CONSTANTES: DECLARACIONES_CONSTANTES CONST IDENTIFICADOR '=' CONSTANTE_ENTERA ';' .
+
+    $default  reduce usando la regla 11 (DECLARACIONES_CONSTANTES)
+
+
+estado 105
+
+   12 DECLARACIONES_CONSTANTES: DECLARACIONES_CONSTANTES CONST IDENTIFICADOR '=' CONSTANTE_REAL ';' .
+
+    $default  reduce usando la regla 12 (DECLARACIONES_CONSTANTES)
+
+
+estado 106
+
+   28 PARAMETROS_LISTA: IDENTIFICADOR_LISTA ':' . TIPO
+
+    INT_TIPO       desplazar e ir al estado 67
+    REAL_TIPO      desplazar e ir al estado 68
+    STRING_TIPO    desplazar e ir al estado 69
+    BOOLEANO_TIPO  desplazar e ir al estado 70
+    ARRAY          desplazar e ir al estado 71
+
+    TIPO           ir al estado 129
+    ESTANDAR_TIPO  ir al estado 73
+
+
+estado 107
+
+   26 ARGUMENTOS: '(' PARAMETROS_LISTA ')' .
+
+    $default  reduce usando la regla 26 (ARGUMENTOS)
+
+
+estado 108
+
+   29 PARAMETROS_LISTA: PARAMETROS_LISTA ';' . IDENTIFICADOR_LISTA ':' TIPO
+
+    IDENTIFICADOR  desplazar e ir al estado 7
+
+    $default  reduce usando la regla 6 (IDENTIFICADOR_LISTA)
+
+    IDENTIFICADOR_LISTA  ir al estado 130
+
+
+estado 109
+
+   24 SUBPROGRAMA_ENCABEZADO: FUNCTION IDENTIFICADOR ARGUMENTOS ':' ESTANDAR_TIPO . ';'
+
+    ';'  desplazar e ir al estado 131
+
+
+estado 110
+
+   40 REPETICION_INSTRUCCION: FOR FOR_ASIGNACION TO EXPRESION . DO INSTRUCCIONES
+   60 EXPRESION: EXPRESION . ADDOP TERMINO
+
+    ADDOP  desplazar e ir al estado 124
+    DO     desplazar e ir al estado 132
+
+
+estado 111
+
+   41 REPETICION_INSTRUCCION: FOR FOR_ASIGNACION DOWNTO EXPRESION . DO INSTRUCCIONES
+   60 EXPRESION: EXPRESION . ADDOP TERMINO
+
+    ADDOP  desplazar e ir al estado 124
+    DO     desplazar e ir al estado 133
+
+
+estado 112
+
+   42 LECTURA_INSTRUCCION: READ '(' IDENTIFICADOR ')' .
+
+    $default  reduce usando la regla 42 (LECTURA_INSTRUCCION)
+
+
+estado 113
+
+   43 LECTURA_INSTRUCCION: READLN '(' IDENTIFICADOR ')' .
+
+    $default  reduce usando la regla 43 (LECTURA_INSTRUCCION)
+
+
+estado 114
+
+   46 ESCRITURA_INSTRUCCION: WRITE '(' CONSTANTE_CADENA ')' .
+
+    $default  reduce usando la regla 46 (ESCRITURA_INSTRUCCION)
+
+
+estado 115
+
+   44 ESCRITURA_INSTRUCCION: WRITE '(' CONSTANTE_CADENA ',' . IDENTIFICADOR ')'
+   48                      | WRITE '(' CONSTANTE_CADENA ',' . EXPRESION ')'
+
+    ADDOP             desplazar e ir al estado 87
+    CONSTANTE_ENTERA  desplazar e ir al estado 88
+    CONSTANTE_REAL    desplazar e ir al estado 89
+    IDENTIFICADOR     desplazar e ir al estado 134
+    '('               desplazar e ir al estado 91
+
+    EXPRESION        ir al estado 135
+    TERMINO          ir al estado 94
+    LLAMADO_FUNCION  ir al estado 95
+    FACTOR           ir al estado 96
+
+
+estado 116
+
+   47 ESCRITURA_INSTRUCCION: WRITELN '(' CONSTANTE_CADENA ')' .
+
+    $default  reduce usando la regla 47 (ESCRITURA_INSTRUCCION)
+
+
+estado 117
+
+   45 ESCRITURA_INSTRUCCION: WRITELN '(' CONSTANTE_CADENA ',' . IDENTIFICADOR ')'
+   49                      | WRITELN '(' CONSTANTE_CADENA ',' . EXPRESION ')'
+
+    ADDOP             desplazar e ir al estado 87
+    CONSTANTE_ENTERA  desplazar e ir al estado 88
+    CONSTANTE_REAL    desplazar e ir al estado 89
+    IDENTIFICADOR     desplazar e ir al estado 136
+    '('               desplazar e ir al estado 91
+
+    EXPRESION        ir al estado 137
+    TERMINO          ir al estado 94
+    LLAMADO_FUNCION  ir al estado 95
+    FACTOR           ir al estado 96
+
+
+estado 118
+
+   69 FACTOR: ADDOP FACTOR .
+
+    $default  reduce usando la regla 69 (FACTOR)
+
+
+estado 119
+
+   63 LLAMADO_FUNCION: IDENTIFICADOR '(' . EXPRESION_LISTA ')'
+
+    ADDOP             desplazar e ir al estado 87
+    CONSTANTE_ENTERA  desplazar e ir al estado 88
+    CONSTANTE_REAL    desplazar e ir al estado 89
+    IDENTIFICADOR     desplazar e ir al estado 90
+    '('               desplazar e ir al estado 91
+
+    EXPRESION_LISTA  ir al estado 138
+    EXPRESION        ir al estado 93
+    TERMINO          ir al estado 94
+    LLAMADO_FUNCION  ir al estado 95
+    FACTOR           ir al estado 96
+
+
+estado 120
+
+   65 FACTOR: IDENTIFICADOR '[' . EXPRESION ']'
+
+    ADDOP             desplazar e ir al estado 87
+    CONSTANTE_ENTERA  desplazar e ir al estado 88
+    CONSTANTE_REAL    desplazar e ir al estado 89
+    IDENTIFICADOR     desplazar e ir al estado 90
+    '('               desplazar e ir al estado 91
+
+    EXPRESION        ir al estado 139
+    TERMINO          ir al estado 94
+    LLAMADO_FUNCION  ir al estado 95
+    FACTOR           ir al estado 96
+
+
+estado 121
+
+   60 EXPRESION: EXPRESION . ADDOP TERMINO
+   70 FACTOR: '(' EXPRESION . ')'
+
+    ADDOP  desplazar e ir al estado 124
+    ')'    desplazar e ir al estado 140
+
+
+estado 122
+
+   56 PROCEDURE_INSTRUCCION: IDENTIFICADOR '(' EXPRESION_LISTA ')' .
+
+    $default  reduce usando la regla 56 (PROCEDURE_INSTRUCCION)
+
+
+estado 123
+
+   58 EXPRESION_LISTA: EXPRESION_LISTA ',' . EXPRESION
+
+    ADDOP             desplazar e ir al estado 87
+    CONSTANTE_ENTERA  desplazar e ir al estado 88
+    CONSTANTE_REAL    desplazar e ir al estado 89
+    IDENTIFICADOR     desplazar e ir al estado 90
+    '('               desplazar e ir al estado 91
+
+    EXPRESION        ir al estado 141
+    TERMINO          ir al estado 94
+    LLAMADO_FUNCION  ir al estado 95
+    FACTOR           ir al estado 96
+
+
+estado 124
+
+   60 EXPRESION: EXPRESION ADDOP . TERMINO
+
+    ADDOP             desplazar e ir al estado 87
+    CONSTANTE_ENTERA  desplazar e ir al estado 88
+    CONSTANTE_REAL    desplazar e ir al estado 89
+    IDENTIFICADOR     desplazar e ir al estado 90
+    '('               desplazar e ir al estado 91
+
+    TERMINO          ir al estado 142
+    LLAMADO_FUNCION  ir al estado 95
+    FACTOR           ir al estado 96
+
+
+estado 125
+
+   62 TERMINO: TERMINO MULOP . FACTOR
+
+    ADDOP             desplazar e ir al estado 87
+    CONSTANTE_ENTERA  desplazar e ir al estado 88
+    CONSTANTE_REAL    desplazar e ir al estado 89
+    IDENTIFICADOR     desplazar e ir al estado 90
+    '('               desplazar e ir al estado 91
+
+    LLAMADO_FUNCION  ir al estado 95
+    FACTOR           ir al estado 143
+
+
+estado 126
+
+   54 VARIABLE: IDENTIFICADOR '[' EXPRESION ']' .
+
+    $default  reduce usando la regla 54 (VARIABLE)
+
+
+estado 127
+
+   50 VARIABLE_ASIGNACION: VARIABLE ':' '=' EXPRESION .
+   60 EXPRESION: EXPRESION . ADDOP TERMINO
+
+    ADDOP  desplazar e ir al estado 124
+
+    $default  reduce usando la regla 50 (VARIABLE_ASIGNACION)
+
+
+estado 128
+
+   16 TIPO: ARRAY '[' CONSTANTE_ENTERA . '.' '.' CONSTANTE_ENTERA ']' OF ESTANDAR_TIPO
+
+    '.'  desplazar e ir al estado 144
+
+
+estado 129
+
+   28 PARAMETROS_LISTA: IDENTIFICADOR_LISTA ':' TIPO .
+
+    $default  reduce usando la regla 28 (PARAMETROS_LISTA)
+
+
+estado 130
+
+    5 IDENTIFICADOR_LISTA: IDENTIFICADOR_LISTA . ',' IDENTIFICADOR
+   29 PARAMETROS_LISTA: PARAMETROS_LISTA ';' IDENTIFICADOR_LISTA . ':' TIPO
+
+    ','  desplazar e ir al estado 10
+    ':'  desplazar e ir al estado 145
+
+
+estado 131
+
+   24 SUBPROGRAMA_ENCABEZADO: FUNCTION IDENTIFICADOR ARGUMENTOS ':' ESTANDAR_TIPO ';' .
+
+    $default  reduce usando la regla 24 (SUBPROGRAMA_ENCABEZADO)
+
+
+estado 132
+
+   40 REPETICION_INSTRUCCION: FOR FOR_ASIGNACION TO EXPRESION DO . INSTRUCCIONES
+
+    BEGINA         desplazar e ir al estado 21
+    FOR            desplazar e ir al estado 29
+    READ           desplazar e ir al estado 30
+    READLN         desplazar e ir al estado 31
+    WRITE          desplazar e ir al estado 32
+    WRITELN        desplazar e ir al estado 33
+    IDENTIFICADOR  desplazar e ir al estado 34
+
+    INSTRUCCION_COMPUESTA   ir al estado 35
+    INSTRUCCIONES           ir al estado 146
+    REPETICION_INSTRUCCION  ir al estado 39
+    LECTURA_INSTRUCCION     ir al estado 40
+    ESCRITURA_INSTRUCCION   ir al estado 41
+    VARIABLE_ASIGNACION     ir al estado 42
+    VARIABLE                ir al estado 43
+    PROCEDURE_INSTRUCCION   ir al estado 44
+
+
+estado 133
+
+   41 REPETICION_INSTRUCCION: FOR FOR_ASIGNACION DOWNTO EXPRESION DO . INSTRUCCIONES
+
+    BEGINA         desplazar e ir al estado 21
+    FOR            desplazar e ir al estado 29
+    READ           desplazar e ir al estado 30
+    READLN         desplazar e ir al estado 31
+    WRITE          desplazar e ir al estado 32
+    WRITELN        desplazar e ir al estado 33
+    IDENTIFICADOR  desplazar e ir al estado 34
+
+    INSTRUCCION_COMPUESTA   ir al estado 35
+    INSTRUCCIONES           ir al estado 147
+    REPETICION_INSTRUCCION  ir al estado 39
+    LECTURA_INSTRUCCION     ir al estado 40
+    ESCRITURA_INSTRUCCION   ir al estado 41
+    VARIABLE_ASIGNACION     ir al estado 42
+    VARIABLE                ir al estado 43
+    PROCEDURE_INSTRUCCION   ir al estado 44
+
+
+estado 134
+
+   44 ESCRITURA_INSTRUCCION: WRITE '(' CONSTANTE_CADENA ',' IDENTIFICADOR . ')'
+   63 LLAMADO_FUNCION: IDENTIFICADOR . '(' EXPRESION_LISTA ')'
+   64 FACTOR: IDENTIFICADOR .
+   65       | IDENTIFICADOR . '[' EXPRESION ']'
+
+    '('  desplazar e ir al estado 119
+    ')'  desplazar e ir al estado 148
+    '['  desplazar e ir al estado 120
+
+    ')'       [reduce usando la regla 64 (FACTOR)]
+    $default  reduce usando la regla 64 (FACTOR)
+
+
+estado 135
+
+   48 ESCRITURA_INSTRUCCION: WRITE '(' CONSTANTE_CADENA ',' EXPRESION . ')'
+   60 EXPRESION: EXPRESION . ADDOP TERMINO
+
+    ADDOP  desplazar e ir al estado 124
+    ')'    desplazar e ir al estado 149
+
+
+estado 136
+
+   45 ESCRITURA_INSTRUCCION: WRITELN '(' CONSTANTE_CADENA ',' IDENTIFICADOR . ')'
+   63 LLAMADO_FUNCION: IDENTIFICADOR . '(' EXPRESION_LISTA ')'
+   64 FACTOR: IDENTIFICADOR .
+   65       | IDENTIFICADOR . '[' EXPRESION ']'
+
+    '('  desplazar e ir al estado 119
+    ')'  desplazar e ir al estado 150
+    '['  desplazar e ir al estado 120
+
+    ')'       [reduce usando la regla 64 (FACTOR)]
+    $default  reduce usando la regla 64 (FACTOR)
+
+
+estado 137
+
+   49 ESCRITURA_INSTRUCCION: WRITELN '(' CONSTANTE_CADENA ',' EXPRESION . ')'
+   60 EXPRESION: EXPRESION . ADDOP TERMINO
+
+    ADDOP  desplazar e ir al estado 124
+    ')'    desplazar e ir al estado 151
+
+
+estado 138
+
+   58 EXPRESION_LISTA: EXPRESION_LISTA . ',' EXPRESION
+   63 LLAMADO_FUNCION: IDENTIFICADOR '(' EXPRESION_LISTA . ')'
+
+    ')'  desplazar e ir al estado 152
+    ','  desplazar e ir al estado 123
+
+
+estado 139
+
+   60 EXPRESION: EXPRESION . ADDOP TERMINO
+   65 FACTOR: IDENTIFICADOR '[' EXPRESION . ']'
+
+    ADDOP  desplazar e ir al estado 124
+    ']'    desplazar e ir al estado 153
+
+
+estado 140
+
+   70 FACTOR: '(' EXPRESION ')' .
+
+    $default  reduce usando la regla 70 (FACTOR)
+
+
+estado 141
+
+   58 EXPRESION_LISTA: EXPRESION_LISTA ',' EXPRESION .
+   60 EXPRESION: EXPRESION . ADDOP TERMINO
+
+    ADDOP  desplazar e ir al estado 124
+
+    $default  reduce usando la regla 58 (EXPRESION_LISTA)
+
+
+estado 142
+
+   60 EXPRESION: EXPRESION ADDOP TERMINO .
+   62 TERMINO: TERMINO . MULOP FACTOR
+
+    MULOP  desplazar e ir al estado 125
+
+    $default  reduce usando la regla 60 (EXPRESION)
+
+
+estado 143
+
+   62 TERMINO: TERMINO MULOP FACTOR .
+
+    $default  reduce usando la regla 62 (TERMINO)
+
+
+estado 144
+
+   16 TIPO: ARRAY '[' CONSTANTE_ENTERA '.' . '.' CONSTANTE_ENTERA ']' OF ESTANDAR_TIPO
+
+    '.'  desplazar e ir al estado 154
+
+
+estado 145
+
+   29 PARAMETROS_LISTA: PARAMETROS_LISTA ';' IDENTIFICADOR_LISTA ':' . TIPO
+
+    INT_TIPO       desplazar e ir al estado 67
+    REAL_TIPO      desplazar e ir al estado 68
+    STRING_TIPO    desplazar e ir al estado 69
+    BOOLEANO_TIPO  desplazar e ir al estado 70
+    ARRAY          desplazar e ir al estado 71
+
+    TIPO           ir al estado 155
+    ESTANDAR_TIPO  ir al estado 73
+
+
+estado 146
+
+   40 REPETICION_INSTRUCCION: FOR FOR_ASIGNACION TO EXPRESION DO INSTRUCCIONES .
+
+    $default  reduce usando la regla 40 (REPETICION_INSTRUCCION)
+
+
+estado 147
+
+   41 REPETICION_INSTRUCCION: FOR FOR_ASIGNACION DOWNTO EXPRESION DO INSTRUCCIONES .
+
+    $default  reduce usando la regla 41 (REPETICION_INSTRUCCION)
+
+
+estado 148
+
+   44 ESCRITURA_INSTRUCCION: WRITE '(' CONSTANTE_CADENA ',' IDENTIFICADOR ')' .
+
+    $default  reduce usando la regla 44 (ESCRITURA_INSTRUCCION)
+
+
+estado 149
+
+   48 ESCRITURA_INSTRUCCION: WRITE '(' CONSTANTE_CADENA ',' EXPRESION ')' .
+
+    $default  reduce usando la regla 48 (ESCRITURA_INSTRUCCION)
+
+
+estado 150
+
+   45 ESCRITURA_INSTRUCCION: WRITELN '(' CONSTANTE_CADENA ',' IDENTIFICADOR ')' .
+
+    $default  reduce usando la regla 45 (ESCRITURA_INSTRUCCION)
+
+
+estado 151
+
+   49 ESCRITURA_INSTRUCCION: WRITELN '(' CONSTANTE_CADENA ',' EXPRESION ')' .
+
+    $default  reduce usando la regla 49 (ESCRITURA_INSTRUCCION)
+
+
+estado 152
+
+   63 LLAMADO_FUNCION: IDENTIFICADOR '(' EXPRESION_LISTA ')' .
+
+    $default  reduce usando la regla 63 (LLAMADO_FUNCION)
+
+
+estado 153
+
+   65 FACTOR: IDENTIFICADOR '[' EXPRESION ']' .
+
+    $default  reduce usando la regla 65 (FACTOR)
+
+
+estado 154
+
+   16 TIPO: ARRAY '[' CONSTANTE_ENTERA '.' '.' . CONSTANTE_ENTERA ']' OF ESTANDAR_TIPO
+
+    CONSTANTE_ENTERA  desplazar e ir al estado 156
+
+
+estado 155
+
+   29 PARAMETROS_LISTA: PARAMETROS_LISTA ';' IDENTIFICADOR_LISTA ':' TIPO .
+
+    $default  reduce usando la regla 29 (PARAMETROS_LISTA)
+
+
+estado 156
+
+   16 TIPO: ARRAY '[' CONSTANTE_ENTERA '.' '.' CONSTANTE_ENTERA . ']' OF ESTANDAR_TIPO
+
+    ']'  desplazar e ir al estado 157
+
+
+estado 157
+
+   16 TIPO: ARRAY '[' CONSTANTE_ENTERA '.' '.' CONSTANTE_ENTERA ']' . OF ESTANDAR_TIPO
+
+    OF  desplazar e ir al estado 158
+
+
+estado 158
+
+   16 TIPO: ARRAY '[' CONSTANTE_ENTERA '.' '.' CONSTANTE_ENTERA ']' OF . ESTANDAR_TIPO
+
+    INT_TIPO       desplazar e ir al estado 67
+    REAL_TIPO      desplazar e ir al estado 68
+    STRING_TIPO    desplazar e ir al estado 69
+    BOOLEANO_TIPO  desplazar e ir al estado 70
+
+    ESTANDAR_TIPO  ir al estado 159
+
+
+estado 159
+
+   16 TIPO: ARRAY '[' CONSTANTE_ENTERA '.' '.' CONSTANTE_ENTERA ']' OF ESTANDAR_TIPO .
+
+    $default  reduce usando la regla 16 (TIPO)

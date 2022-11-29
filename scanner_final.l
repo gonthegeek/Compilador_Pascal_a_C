@@ -11,7 +11,8 @@
     #include <malloc.h>
     #include "sintactico.tab.h"
 
-    unsigned int contador_fila = 0;
+    unsigned int contador_fila = 1;
+    unsigned int total_filas = 1;
 
 %}
 %option outfile="scanner.c"
@@ -67,25 +68,25 @@ REAL                     [+-]?{ENTERO}+\.{DIGITO}+([eE]{ADDOP}?{DIGITO}+)?
 
 {INT_TIPO}      {
                     printf("Encontre: %s\n",yytext); 
-                     
+                    strcpy(yylval.aux.tipo, "int"); 
                     return  INT_TIPO;
                 }
 
 {STRING_TIPO}   {
                     printf("Encontre: %s\n",yytext); 
-                     
+                    strcpy(yylval.aux.tipo, "string");  
                     return STRING_TIPO;
                 }
 
 {BOOLEANO_TIPO} {
                     printf("Encontre: %s\n",yytext); 
-                     
+                    strcpy(yylval.aux.tipo, "bool");  
                     return BOOLEANO_TIPO;
                 }
 
 {REAL_TIPO}     {
                     printf("Encontre: %s\n",yytext); 
-                     
+                    strcpy(yylval.aux.tipo, "float");  
                     return REAL_TIPO;
                 }
 
@@ -240,7 +241,10 @@ REAL                     [+-]?{ENTERO}+\.{DIGITO}+([eE]{ADDOP}?{DIGITO}+)?
                     }
 
 {IDENTIFICADOR}	{
-                    printf("Encontre: %s\n",yytext); 
+                   printf("Encontre: %s\n", yytext); 
+                    strcpy(yylval.nombre, yytext);
+                    
+                    yylval.aux.fila_declaracion = contador_fila;
                     return IDENTIFICADOR;                
                 }		 		 
 
@@ -275,16 +279,18 @@ REAL                     [+-]?{ENTERO}+\.{DIGITO}+([eE]{ADDOP}?{DIGITO}+)?
                 }
 
 \n              {
-                    //printf("Encontre un salto de linea \n");    
+                    //printf("Encontre un salto de linea \n");
+                    contador_fila++;
+                    total_filas = contador_fila;     
                 }
 
 \t              {
                    //printf("Encontre: un espacio en blanco \n");
                 }
 .			    {
-                    printf("Caracter no valido ");
+                    printf("Caracter no valido:");
                      
-                    yyerror(yytext);
+                
                  }
 
 %%

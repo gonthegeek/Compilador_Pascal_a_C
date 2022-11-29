@@ -1,4 +1,4 @@
-%token PROGRAM INT_TIPO REAL_TIPO STRING_TIPO BOOLEANO_TIPO ADDOP MULOP VAR CONST ARRAY OF FUNCTION PROCEDURE BEGINA END WHILE DO TO FOR READ DOWNTO READLN WRITE WRITELN IF ELSE THEN AND OR NOT CONSTANTE_CADENA CONSTANTE_ENTERA CONSTANTE_REAL
+%token PROGRAM INT_TIPO REAL_TIPO STRING_TIPO BOOLEANO_TIPO ADDOP MULOP VAR CONST ARRAY OF FUNCTION PROCEDURE BEGINA END WHILE DO TO FOR READ DOWNTO READLN WRITE WRITELN IF ELSE THEN AND OR NOT CONSTANTE_CADENA CONSTANTE_ENTERA CONSTANTE_REAL IDENTIFICADOR
 %{
     #include "hash.h"
     #include <stdio.h>
@@ -18,25 +18,31 @@
 
 %union {
         identidad aux;
-        char nombre[127];
-        char tipo [15];
+        char ambito[15];
+        char nombre[200];
 }
-%token <nombre> IDENTIFICADOR
-%type  <tipo> TIPO
 /*Aquí va la gramatica completa*/
 %%
 
-PROGRAMA :  PROGRAM IDENTIFICADOR '('IDENTIFICADOR_LISTA')'';' DECLARACIONES SUBPROGRAMA_DECLARACIONES  INSTRUCCION_COMPUESTA'.';
-
-INSTRUCCION_COMPUESTA : BEGINA INSTRUCCIONES_OPCIONALES END ;
+PROGRAMA :  PROGRAM  IDENTIFICADOR {
+        strcpy(yylval.ambito, yylval.nombre);
+        identidad p = {.nombre="", .tipo = "", .fila_declaracion=yylval.aux.fila_declaracion, .filas_uso = yylval.aux.fila_declaracion, .ambito= ""};
+        strcpy(p.nombre,yylval.nombre);
+        strcpy(p.ambito,yylval.ambito);
+        hash_table_insert(&p);} '('IDENTIFICADOR_LISTA')'';' DECLARACIONES SUBPROGRAMA_DECLARACIONES  INSTRUCCION_COMPUESTA'.';
+INSTRUCCION_COMPUESTA : BEGINA INSTRUCCIONES_OPCIONALES END;
 
 RELOP : AND | OR | '<' | '>' | '<''=' | '>''=' | '=';
 
-IDENTIFICADOR_LISTA : IDENTIFICADOR | IDENTIFICADOR_LISTA',' IDENTIFICADOR | {} ;
+IDENTIFICADOR_LISTA : IDENTIFICADOR {
+        identidad p = {.nombre="", .tipo = "", .fila_declaracion=yylval.aux.fila_declaracion, .filas_uso = yylval.aux.fila_declaracion, .ambito= ""};
+        strcpy(p.nombre,yylval.nombre);
+        strcpy(p.ambito,yylval.ambito);
+        hash_table_insert(&p); print_table();} | IDENTIFICADOR_LISTA',' IDENTIFICADOR | ;
 
 DECLARACIONES : DECLARACIONES_VARIABLES | DECLARACIONES_CONSTANTES ; 
 
-DECLARACIONES_VARIABLES : DECLARACIONES_VARIABLES VAR IDENTIFICADOR_LISTA ':' TIPO ';' | ;
+DECLARACIONES_VARIABLES : DECLARACIONES_VARIABLES VAR IDENTIFICADOR_LISTA  ':' TIPO ';' | ;
 
 DECLARACIONES_CONSTANTES : DECLARACIONES_CONSTANTES CONST IDENTIFICADOR '=' CONSTANTE_ENTERA ';' 
                                 | DECLARACIONES_CONSTANTES CONST IDENTIFICADOR '=' CONSTANTE_REAL ';'
@@ -125,8 +131,11 @@ int main(int argc, char * argv[])
     	else
             yyin = stdin;
     
-       
+       printf("probando antes de parse");
     	yyparse();
-        
+        printf("probando despues de parse");
+        print_table(); 
+        printf("probando despues de tabla");
+
     	return(0);
 }
