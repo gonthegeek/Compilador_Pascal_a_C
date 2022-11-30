@@ -1,5 +1,5 @@
 program main(input, output);
-    var a,b,c,d: integer;
+    var act,b2,c,dino: integer;
     
     function Add(a: integer; b: integer) : integer;
     begin
@@ -10,6 +10,6 @@ begin
     a := 9;
     b := 7;
     multadd;
-    writeln(c);
-    writeln(d)
+    writeln("c");
+    writeln("d")
 end.

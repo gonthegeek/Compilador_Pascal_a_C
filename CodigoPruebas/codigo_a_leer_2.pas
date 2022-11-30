@@ -1,4 +1,4 @@
-program forLoop(input, output);
+program forLoop();
 
 var
     nombre : string;
@@ -8,9 +8,9 @@ begin
     maxColumnas := 7;
 
     for fila := 1 to maxFilas do
-    begin
+
         for columna := 1 to maxColumnas do
             write("*");
         write("\n");
-    end.
+writeln("FIN")
 end.

@@ -19,13 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\hash.c" />
-    <ClCompile Include="..\..\scanner.c" />
-    <ClCompile Include="..\..\sintactico.tab.c" />
+    <ClCompile Include="..\..\Codigo_apoyo\Original\hashMap.c" />
+    <ClCompile Include="..\..\lex.yy.c" />
+    <ClCompile Include="..\..\sintacticoIa_Ian.tab.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\hash.h" />
-    <ClInclude Include="..\..\sintactico.tab.h" />
+    <ClInclude Include="..\..\Codigo_apoyo\Original\hashMap.h" />
+    <ClInclude Include="..\..\sintacticoIa_Ian.tab.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

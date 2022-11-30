@@ -18,10 +18,9 @@ unsigned int hash(char *nombre, char *ambito)
     for (int i = 0; i < longitud; i++)
     {
         hash_value += aux[i];
-        hash_value = (hash_value * aux[i]) % TABLE_SIZE;
         // el table_size sirve para ajustar los números al tamaño de la tabla -1
     }
-    return hash_value;
+    return hash_value % TABLE_SIZE;
 }
 
 void init_hash_table()
@@ -76,13 +75,13 @@ bool hash_table_insert(identidad *p)
         if (hash_table[try] == NULL || hash_table[try] == DELETED_NODE)
         {
             hash_table[try] = p;
+            identidad *temp = malloc(sizeof(identidad));
+            memcpy(temp, p, sizeof(identidad));
             return true;
         }
     }
     return false;
 }
-
-
 // Busca dentro de la tabla hash 
 identidad *hash_table_lookup(char *nombre, char *ambito)
 {

@@ -1,27 +1,16 @@
-#include <stdio.h>   // printf
+
+#include <stdio.h>   // printf_s
 #include <stdlib.h>  // malloc y free
 #include <stdbool.h> // Booleanos
+#include <string.h>
 
-struct elementoPila{
-    int numero;
-    struct elementoPila *siguiente;
-};
+#include "pila.h"
 
-struct elementoPila *superior = NULL;
-
-
-void agregar(int numero);  // push
-void eliminarUltimo(void); // pop
-void imprimir(void);
-int tamanio(void); // El tamaño de la pila
-bool vacia(void);  // Indica si la pila está vacía
-int ultimo(void);
-
-int tamanio(void) {
+int lenght(void) {
   int contador = 0;
   if (superior == NULL)
     return contador;
-  struct siguiente *temporal = superior;
+  struct nodo *temporal = superior;
   while (temporal != NULL) {
     contador++;
     temporal = temporal->siguiente;
@@ -31,39 +20,41 @@ int tamanio(void) {
 
 bool vacia(void) { return superior == NULL; }
 
-int ultimo() {
+void mostrarUltimo() {
   if (superior == NULL)
-    return -1;
-  return superior->numero;
+    printf("Esta vacio");
+  printf_s( superior->nombre);
 }
 
-void agregar(int numero) {
-  printf("Agregando %d\n", numero);
-  // El que se agregará; reservamos memoria
-  struct siguiente *nuevoElemento = malloc(sizeof(struct siguiente));
+// Operación push
+void push(char *nombre) {
+  printf_s("Agregando %s\n", nombre);
+  // El que se pushá; reservamos memoria
+  struct nodo *nuevoNodo = malloc(sizeof(struct nodo));
   // Le ponemos el dato
-  nuevoElemento->numero = numero;
-  // Y ahora el nuevo siguiente es el superior, y su siguiente
+  strcpy_s(nuevoNodo->nombre, malloc(sizeof(nombre)),nombre);
+  // Y ahora el nuevo nodo es el superior, y su siguiente
   // es el que antes era superior
-  nuevoElemento->siguiente = superior;
-  superior = nuevoElemento;
+  nuevoNodo->siguiente = superior;
+  superior = nuevoNodo;
 }
 
 void imprimir(void) {
-  printf("Imprimiendo...\n");
-  struct siguiente *temporal = superior;
+  printf_s("Imprimiendo...\n");
+  struct nodo *temporal = superior;
   while (temporal != NULL) {
-    printf("%d\n", temporal->numero);
+    printf_s("%s\n", temporal->nombre);
     temporal = temporal->siguiente;
   }
 }
 
-void eliminarUltimo(void) {
-  printf("Eliminando el último\n");
+// Operación pop, eliminar el de hasta arriba
+void pop(void) {
+  printf_s("Eliminando el último\n");
   if (superior != NULL) {
     // Para liberar la memoria más tarde debemos
     // tener la referencia al que vamos a eliminar
-    struct siguiente *temporal = superior;
+    struct nodo *temporal = superior;
     // Ahora superior es a lo que apuntaba su siguiente
     superior = superior->siguiente;
 

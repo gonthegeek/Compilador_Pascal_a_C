@@ -35,7 +35,7 @@
 /* "%code requires" blocks.  */
 
 /* Line 1676 of yacc.c  */
-#line 14 ".\\sintactico.y"
+#line 17 "sintactico.y"
 
     #include "hash.h"
 
@@ -51,39 +51,39 @@
       know about them.  */
    enum yytokentype {
      PROGRAM = 258,
-     INT_TIPO = 259,
-     REAL_TIPO = 260,
-     STRING_TIPO = 261,
-     BOOLEANO_TIPO = 262,
-     ADDOP = 263,
-     MULOP = 264,
-     VAR = 265,
-     CONST = 266,
-     ARRAY = 267,
-     OF = 268,
-     FUNCTION = 269,
-     PROCEDURE = 270,
-     BEGINA = 271,
-     END = 272,
-     WHILE = 273,
-     DO = 274,
-     TO = 275,
-     FOR = 276,
-     READ = 277,
-     DOWNTO = 278,
-     READLN = 279,
-     WRITE = 280,
-     WRITELN = 281,
-     IF = 282,
-     ELSE = 283,
-     THEN = 284,
-     AND = 285,
-     OR = 286,
-     NOT = 287,
-     CONSTANTE_CADENA = 288,
-     CONSTANTE_ENTERA = 289,
-     CONSTANTE_REAL = 290,
-     IDENTIFICADOR = 291
+     ADDOP = 259,
+     MULOP = 260,
+     VAR = 261,
+     CONST = 262,
+     ARRAY = 263,
+     OF = 264,
+     FUNCTION = 265,
+     PROCEDURE = 266,
+     BEGINA = 267,
+     END = 268,
+     WHILE = 269,
+     DO = 270,
+     TO = 271,
+     FOR = 272,
+     READ = 273,
+     DOWNTO = 274,
+     READLN = 275,
+     WRITE = 276,
+     WRITELN = 277,
+     IF = 278,
+     ELSE = 279,
+     THEN = 280,
+     AND = 281,
+     OR = 282,
+     NOT = 283,
+     CONSTANTE_CADENA = 284,
+     CONSTANTE_ENTERA = 285,
+     CONSTANTE_REAL = 286,
+     IDENTIFICADOR = 287,
+     INT_TIPO = 288,
+     REAL_TIPO = 289,
+     STRING_TIPO = 290,
+     BOOLEANO_TIPO = 291
    };
 #endif
 
@@ -94,16 +94,18 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 19 ".\\sintactico.y"
+#line 22 "sintactico.y"
 
         identidad aux;
         char ambito[15];
         char nombre[200];
+        char nombre_lista[201];
+        char tipo[16];
 
 
 
 /* Line 1676 of yacc.c  */
-#line 107 "sintactico.tab.h"
+#line 109 "sintactico.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

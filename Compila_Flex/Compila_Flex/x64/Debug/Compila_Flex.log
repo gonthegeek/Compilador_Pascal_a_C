@@ -1,10 +1,10 @@
-﻿  hash.c
-  scanner.c
-scanner.c(730,10): warning C4102: 'find_rule': etiqueta sin referencia
-  sintactico.tab.c
-sintactico.tab.c(330,7): warning C4273: 'malloc': vinculación de DLL incoherente
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\ucrt\corecrt_malloc.h(101,15): message : vea la definición anterior de 'malloc'
-sintactico.tab.c(337,6): warning C4273: 'free': vinculación de DLL incoherente
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\ucrt\corecrt_malloc.h(89,14): message : vea la definición anterior de 'free'
+﻿  hashMap.c
+  lex.yy.c
+Codigo_apoyo\Original\sintacticoIa_Ian.y(19,5): error C2061: error de sintaxis: identificador 'identificador'
+sintacticoIa_Ian.tab.h(97,1): error C2059: error de sintaxis: '}'
+sintacticoIa_Ian.tab.h(103,16): error C2061: error de sintaxis: identificador 'yylval'
+sintacticoIa_Ian.tab.h(103,16): error C2059: error de sintaxis: ';'
+Codigo_apoyo\Original\scanner_Ian.l(8,10): fatal  error C1083: No se puede abrir el archivo incluir: 'hashMap.h': No such file or directory
+  sintacticoIa_Ian.tab.c
+Codigo_apoyo\Original\sintacticoIa_Ian.y(5,14): fatal  error C1083: No se puede abrir el archivo incluir: 'hashMap.h': No such file or directory
   Generando código...
-  Compila_Flex.vcxproj -> C:\Users\Javier\Desktop\Pascal_a_C\Compila_Flex\x64\Debug\Compila_Flex.exe

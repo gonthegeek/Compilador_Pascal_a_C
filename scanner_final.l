@@ -23,7 +23,7 @@ PROGRAM         		 [p][r][o][g][r][a][m]
 LETRA 					 [A-Za-z]
 DIGITO 					 [0-9]
 IDENTIFICADOR            {LETRA}({LETRA}|{DIGITO})*  
-ALPHA    			     [\<\.\(\>\);=\[,:\]\"]
+ALPHA    			     [\<\.\(\>\);=\[,:\]\"\$\&\/\%\#]
 INT_TIPO        		 [i][n][t][e][g][e][r]
 REAL_TIPO       		 [r][e][a][l]
 STRING_TIPO     		 [s][t][r][i][n][g]
@@ -62,31 +62,33 @@ REAL                     [+-]?{ENTERO}+\.{DIGITO}+([eE]{ADDOP}?{DIGITO}+)?
 
 {PROGRAM}	    {
                     printf("Encontre: %s\n",yytext); 
-                     
-                    return PROGRAM;
+                   return PROGRAM;
                 }
 
 {INT_TIPO}      {
                     printf("Encontre: %s\n",yytext); 
-                    strcpy(yylval.aux.tipo, "int"); 
+                    strcpy(yylval.tipo, "int");
                     return  INT_TIPO;
                 }
 
 {STRING_TIPO}   {
-                    printf("Encontre: %s\n",yytext); 
-                    strcpy(yylval.aux.tipo, "string");  
+                    printf("Encontre: %s\n",yytext);
+                    strcpy(yylval.tipo, "string");
+ 
                     return STRING_TIPO;
                 }
 
 {BOOLEANO_TIPO} {
                     printf("Encontre: %s\n",yytext); 
-                    strcpy(yylval.aux.tipo, "bool");  
+                                        strcpy(yylval.tipo, "bool");
+
                     return BOOLEANO_TIPO;
                 }
 
 {REAL_TIPO}     {
                     printf("Encontre: %s\n",yytext); 
-                    strcpy(yylval.aux.tipo, "float");  
+                                        strcpy(yylval.tipo, "float");
+
                     return REAL_TIPO;
                 }
 
@@ -242,8 +244,7 @@ REAL                     [+-]?{ENTERO}+\.{DIGITO}+([eE]{ADDOP}?{DIGITO}+)?
 
 {IDENTIFICADOR}	{
                    printf("Encontre: %s\n", yytext); 
-                    strcpy(yylval.nombre, yytext);
-                    
+                    strcpy(yylval.nombre, yytext);  
                     yylval.aux.fila_declaracion = contador_fila;
                     return IDENTIFICADOR;                
                 }		 		 
@@ -258,7 +259,7 @@ REAL                     [+-]?{ENTERO}+\.{DIGITO}+([eE]{ADDOP}?{DIGITO}+)?
 {ALPHA}         {
                     printf("Encontre: %s\n",yytext); 
                      
-                    return *yytext;;
+                    return *yytext;
                 }
 
 {ADDOP}         {

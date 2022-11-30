@@ -15,21 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\hash.c">
+    <ClCompile Include="..\..\lex.yy.c">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sintactico.tab.c">
+    <ClCompile Include="..\..\Codigo_apoyo\Original\hashMap.c">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\scanner.c">
+    <ClCompile Include="..\..\sintacticoIa_Ian.tab.c">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\hash.h">
+    <ClInclude Include="..\..\Codigo_apoyo\Original\hashMap.h">
       <Filter>Archivos de origen</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sintactico.tab.h">
+    <ClInclude Include="..\..\sintacticoIa_Ian.tab.h">
       <Filter>Archivos de origen</Filter>
     </ClInclude>
   </ItemGroup>
