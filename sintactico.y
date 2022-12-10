@@ -1,3 +1,4 @@
+/*Define los tokens que serán utilizados por el lenguaje*/
 %token PROGRAM ADDOP MULOP VAR CONST ARRAY OF FUNCTION PROCEDURE BEGINA END WHILE DO TO FOR READ DOWNTO READLN WRITE WRITELN IF ELSE THEN AND OR NOT CONSTANTE_CADENA CONSTANTE_ENTERA CONSTANTE_REAL
 %{
     #include "hash.h"
@@ -10,15 +11,18 @@
     extern FILE * yyin;
     extern FILE * yyout;
 
+   /* Crea dos arreglos global de 256 caracteres.*/
     char identificadores[256];
     char ambito[255];
 %}
 
+/*Le dice al parser que incluya el hash.h en el código generado.*/
 %code requires {
     #include "hash.h"
 }
 
 
+/*Define una nueva unión con diferentes tipos de variables*/
 %union {
         identidad aux;
         char ambito[15];
@@ -27,6 +31,15 @@
         char tipo[16];
 }
 
+/*
+Se declara un %token IDENTIFICADOR del tipo nombre.
+La siguiente linea es una declaracion %tipo que lista los terminales de tipo .
+Las siguientes lineas son las reglas de la gramática. Cada regla tiene la forma:
+    <no terminal> : <producto>
+    | <producto>
+    | <producto>
+    | <producto>*/
+    
 %token <nombre> IDENTIFICADOR 
 %token <tipo> INT_TIPO REAL_TIPO STRING_TIPO BOOLEANO_TIPO
 %type<tipo> TIPO ESTANDAR_TIPO
@@ -37,6 +50,7 @@
 
 PROGRAMA :  PROGRAM  IDENTIFICADOR 
         { 
+                /*Añade una nueva entrada a la tabla hash*/
                 identidad p = {.nombre="", .tipo ="", .fila_declaracion=yylval.aux.fila_declaracion, .filas_uso = yylval.aux.fila_declaracion, .ambito=""};
                 strcpy(p.nombre, yylval.nombre);
                 strcpy(ambito, yylval.nombre);
@@ -51,6 +65,7 @@ INSTRUCCION_COMPUESTA : BEGINA INSTRUCCIONES_OPCIONALES END;
 RELOP : AND | OR | '<' | '>' | '<''=' | '>''=' | '=';
 
 IDENTIFICADOR_LISTA : {identificadores[0] = '\0'}  IDENTIFICADOR { 
+    /*Crea una lista de indetificadores del programa.*/
     strcat(identificadores, yylval.nombre); // añadir a lista el identificador
     strcat(identificadores, " "); // poner separador
     strcpy($$, identificadores); } | IDENTIFICADOR_LISTA',' IDENTIFICADOR { 
@@ -61,6 +76,7 @@ IDENTIFICADOR_LISTA : {identificadores[0] = '\0'}  IDENTIFICADOR {
 DECLARACIONES : DECLARACIONES_VARIABLES | DECLARACIONES_CONSTANTES ; 
 
 DECLARACIONES_VARIABLES : DECLARACIONES_VARIABLES VAR IDENTIFICADOR_LISTA  ':' TIPO ';'  {
+        /*Añade una nueva entrada a la tabla hash*/
         char *nombres_identificadores;
         nombres_identificadores = strtok($3, " ");
         while (nombres_identificadores)
@@ -93,7 +109,8 @@ SUBPROGRAMA_DECLARACIONES : SUBPROGRAMA_DECLARACIONES SUBPROGRAMA_DECLARACION ';
 SUBPROGRAMA_DECLARACION : SUBPROGRAMA_ENCABEZADO  DECLARACIONES SUBPROGRAMA_DECLARACIONES INSTRUCCION_COMPUESTA ;
 
 SUBPROGRAMA_ENCABEZADO : FUNCTION IDENTIFICADOR ARGUMENTOS ':' ESTANDAR_TIPO ';'  {
-         char *nombres_identificadores;
+        /*Añade una nueva entrada a la tabla hash*/
+        char *nombres_identificadores;
         nombres_identificadores = strtok($3, " ");
         while (nombres_identificadores)
         {
@@ -128,6 +145,7 @@ SUBPROGRAMA_ENCABEZADO : FUNCTION IDENTIFICADOR ARGUMENTOS ':' ESTANDAR_TIPO ';'
 ARGUMENTOS : '('PARAMETROS_LISTA')' |  ;
 
 PARAMETROS_LISTA : IDENTIFICADOR_LISTA ':' TIPO {
+        /*Añade una nueva entrada a la tabla hash*/
         char *nombres_identificadores;
         nombres_identificadores = strtok($3, " ");
         while (nombres_identificadores)
@@ -142,6 +160,7 @@ PARAMETROS_LISTA : IDENTIFICADOR_LISTA ':' TIPO {
         }
        
         } | PARAMETROS_LISTA ';' IDENTIFICADOR_LISTA ':' TIPO {
+        /*Añade una nueva entrada a la tabla hash*/
         char *nombres_identificadores;
         nombres_identificadores = strtok($3, " ");
         while (nombres_identificadores)

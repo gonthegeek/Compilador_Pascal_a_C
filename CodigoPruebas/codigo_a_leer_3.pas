@@ -1,5 +1,5 @@
 program main(input, output);
-    var act,b2,c,dino: integer;
+    var suma,total,cuenta,resta: integer;
     
     function Add(a: integer; b: integer) : integer;
     begin

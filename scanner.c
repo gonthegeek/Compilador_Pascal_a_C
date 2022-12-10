@@ -498,6 +498,12 @@ char *yytext_ptr;
 #define INITIAL 0
 #line 2 ".\\scanner_final.l"
 
+    /*Inluye el header lex.yy.h, que contiene la definición del lexer.
+    Inluye el header sintactico.tab.h que contiene la definición del parser.
+    Se define contador_fila and total_filas, que se ocupa para mantener cuenta del número de línea acttual.
+    Define la función yyerror(), que se llama cuando ocurre un error.
+    Deefine la función yylex(), que se llama cuando el parser necesita el siguiente token.
+    Define la función yyparse(), que se llama cuando el parser necesita parsear el siguiente token.*/
     #pragma warning(disable: 4996 6011 6385 4013 4244 4267)
     #include <stdio.h>
     #include <string.h>
@@ -512,9 +518,10 @@ char *yytext_ptr;
     unsigned int contador_fila = 1;
     unsigned int total_filas = 1;
 
-/*%option noyywrap*/
-/*RELOP           		 [a][n][d]|[o][r]*/
-#line 518 "scanner.c"
+/*Se define el nombre para el archivo de salida.*/
+/*Se definen los elementos terminales de la gramática.*/
+/*Se definen las acciones a tomar cuando se encuentren coincidencias con las reglas*/
+#line 525 "scanner.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -665,10 +672,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 61 ".\\scanner_final.l"
+#line 67 ".\\scanner_final.l"
 
-
-#line 672 "scanner.c"
+#line 678 "scanner.c"
 
 	if ( yy_init )
 		{
@@ -761,54 +767,54 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 63 ".\\scanner_final.l"
+#line 68 ".\\scanner_final.l"
 {
-                    printf("Encontre: %s\n",yytext); 
+                   printf("Encontre: %s\n",yytext); /*Imprime el valor del token encontrado por Flex */
                    return PROGRAM;
                 }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 68 ".\\scanner_final.l"
+#line 73 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
-                    strcpy(yylval.tipo, "int");
+                    strcpy(yylval.tipo, "int"); /*Copia el string entre comillas la variable yyval.tipo*/
                     return  INT_TIPO;
                 }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 74 ".\\scanner_final.l"
+#line 79 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext);
-                    strcpy(yylval.tipo, "string");
+                    strcpy(yylval.tipo, "string"); /*Copia el string entre comillas la variable yyval.tipo*/
  
                     return STRING_TIPO;
                 }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 81 ".\\scanner_final.l"
+#line 86 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
-                                        strcpy(yylval.tipo, "bool");
+                    strcpy(yylval.tipo, "bool"); /*Copia el string entre comillas la variable yyval.tipo*/
 
                     return BOOLEANO_TIPO;
                 }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 88 ".\\scanner_final.l"
+#line 93 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
-                                        strcpy(yylval.tipo, "float");
+                    strcpy(yylval.tipo, "float"); /*Copia el string entre comillas la variable yyval.tipo*/
 
                     return REAL_TIPO;
                 }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 95 ".\\scanner_final.l"
+#line 100 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -817,7 +823,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 101 ".\\scanner_final.l"
+#line 106 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -826,7 +832,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 107 ".\\scanner_final.l"
+#line 112 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -835,7 +841,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 114 ".\\scanner_final.l"
+#line 119 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -844,7 +850,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 120 ".\\scanner_final.l"
+#line 125 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -853,7 +859,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 126 ".\\scanner_final.l"
+#line 131 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -862,7 +868,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 132 ".\\scanner_final.l"
+#line 137 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -871,7 +877,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 138 ".\\scanner_final.l"
+#line 143 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -880,7 +886,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 144 ".\\scanner_final.l"
+#line 149 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -889,7 +895,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 150 ".\\scanner_final.l"
+#line 155 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -898,7 +904,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 156 ".\\scanner_final.l"
+#line 161 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -907,7 +913,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 162 ".\\scanner_final.l"
+#line 167 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -916,7 +922,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 168 ".\\scanner_final.l"
+#line 173 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -925,7 +931,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 174 ".\\scanner_final.l"
+#line 179 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -934,7 +940,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 180 ".\\scanner_final.l"
+#line 185 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -943,7 +949,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 186 ".\\scanner_final.l"
+#line 191 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -952,7 +958,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 192 ".\\scanner_final.l"
+#line 197 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -961,7 +967,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 198 ".\\scanner_final.l"
+#line 203 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -970,7 +976,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 204 ".\\scanner_final.l"
+#line 209 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -979,7 +985,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 210 ".\\scanner_final.l"
+#line 215 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -988,7 +994,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 216 ".\\scanner_final.l"
+#line 221 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -997,7 +1003,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 222 ".\\scanner_final.l"
+#line 227 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -1006,7 +1012,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 228 ".\\scanner_final.l"
+#line 233 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -1015,7 +1021,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 234 ".\\scanner_final.l"
+#line 239 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -1024,7 +1030,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 240 ".\\scanner_final.l"
+#line 245 ".\\scanner_final.l"
 {
                         printf("Encontre: %s\n",yytext); 
                         return CONSTANTE_REAL;
@@ -1032,17 +1038,17 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 245 ".\\scanner_final.l"
+#line 250 ".\\scanner_final.l"
 {
                    printf("Encontre: %s\n", yytext); 
-                    strcpy(yylval.nombre, yytext);  
-                    yylval.aux.fila_declaracion = contador_fila;
+                    strcpy(yylval.nombre, yytext);  /*Copia el valor del token de yytext a la variable yyval.tipo*/
+                    yylval.aux.fila_declaracion = contador_fila; /*Asigna el valor de contador_fila a la variable yylval.aux.fila_declaracion*/
                     return IDENTIFICADOR;                
                 }		 		 
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 253 ".\\scanner_final.l"
+#line 258 ".\\scanner_final.l"
 {
                         printf("Encontre: %s\n",yytext); 
                         return CONSTANTE_CADENA;
@@ -1050,7 +1056,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 259 ".\\scanner_final.l"
+#line 264 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -1059,7 +1065,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 265 ".\\scanner_final.l"
+#line 270 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -1068,7 +1074,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 271 ".\\scanner_final.l"
+#line 276 ".\\scanner_final.l"
 {
                     printf("Encontre: %s\n",yytext); 
                      
@@ -1077,7 +1083,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 277 ".\\scanner_final.l"
+#line 282 ".\\scanner_final.l"
 {
                     //printf("Encontre: un espacio en blanco \n");
                     
@@ -1085,23 +1091,23 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 282 ".\\scanner_final.l"
+#line 287 ".\\scanner_final.l"
 {
                     //printf("Encontre un salto de linea \n");
-                    contador_fila++;
+                    contador_fila++; /*Aumenta valor actual*/
                     total_filas = contador_fila;     
                 }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 288 ".\\scanner_final.l"
+#line 293 ".\\scanner_final.l"
 {
                    //printf("Encontre: un espacio en blanco \n");
                 }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 291 ".\\scanner_final.l"
+#line 296 ".\\scanner_final.l"
 {
                     printf("Caracter no valido:");
                      
@@ -1110,10 +1116,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 297 ".\\scanner_final.l"
+#line 302 ".\\scanner_final.l"
 ECHO;
 	YY_BREAK
-#line 1117 "scanner.c"
+#line 1123 "scanner.c"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1997,7 +2003,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 297 ".\\scanner_final.l"
+#line 302 ".\\scanner_final.l"
 
 
 

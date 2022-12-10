@@ -68,7 +68,7 @@
 /* Copy the first part of user declarations.  */
 
 /* Line 189 of yacc.c  */
-#line 2 "sintactico.y"
+#line 3 ".\\sintactico.y"
 
     #include "hash.h"
     #include <stdio.h>
@@ -80,12 +80,13 @@
     extern FILE * yyin;
     extern FILE * yyout;
 
+   /* Crea dos arreglos global de 256 caracteres.*/
     char identificadores[256];
     char ambito[255];
 
 
 /* Line 189 of yacc.c  */
-#line 89 "sintactico.tab.c"
+#line 90 "sintactico.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -108,14 +109,14 @@
 /* "%code requires" blocks.  */
 
 /* Line 209 of yacc.c  */
-#line 17 "sintactico.y"
+#line 20 ".\\sintactico.y"
 
     #include "hash.h"
 
 
 
 /* Line 209 of yacc.c  */
-#line 119 "sintactico.tab.c"
+#line 120 "sintactico.tab.c"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -167,7 +168,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 22 "sintactico.y"
+#line 26 ".\\sintactico.y"
 
         identidad aux;
         char ambito[15];
@@ -178,7 +179,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 182 "sintactico.tab.c"
+#line 183 "sintactico.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -190,7 +191,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 194 "sintactico.tab.c"
+#line 195 "sintactico.tab.c"
 
 #ifdef short
 # undef short
@@ -517,16 +518,16 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    39,    39,    38,    49,    51,    51,    51,    51,    51,
-      51,    51,    53,    53,    56,    59,    61,    61,    63,    78,
-      80,    81,    82,    82,    85,    87,    89,    89,    89,    89,
-      91,    91,    93,    95,   111,   128,   128,   130,   144,   160,
-     160,   162,   162,   164,   164,   164,   164,   165,   165,   165,
-     167,   168,   169,   171,   171,   173,   173,   174,   174,   175,
-     175,   177,   178,   180,   182,   182,   184,   184,   186,   186,
-     188,   188,   190,   190,   192,   192,   194,   194,   196,   198,
-     198,   200,   200,   202,   202,   204,   206,   206,   206,   206,
-     206,   206,   206
+       0,    52,    52,    51,    63,    65,    65,    65,    65,    65,
+      65,    65,    67,    67,    71,    74,    76,    76,    78,    94,
+      96,    97,    98,    98,   101,   103,   105,   105,   105,   105,
+     107,   107,   109,   111,   128,   145,   145,   147,   162,   179,
+     179,   181,   181,   183,   183,   183,   183,   184,   184,   184,
+     186,   187,   188,   190,   190,   192,   192,   193,   193,   194,
+     194,   196,   197,   199,   201,   201,   203,   203,   205,   205,
+     207,   207,   209,   209,   211,   211,   213,   213,   215,   217,
+     217,   219,   219,   221,   221,   223,   225,   225,   225,   225,
+     225,   225,   225
 };
 #endif
 
@@ -1562,8 +1563,9 @@ yyreduce:
         case 2:
 
 /* Line 1455 of yacc.c  */
-#line 39 "sintactico.y"
+#line 52 ".\\sintactico.y"
     { 
+                /*Añade una nueva entrada a la tabla hash*/
                 identidad p = {.nombre="", .tipo ="", .fila_declaracion=yylval.aux.fila_declaracion, .filas_uso = yylval.aux.fila_declaracion, .ambito=""};
                 strcpy(p.nombre, yylval.nombre);
                 strcpy(ambito, yylval.nombre);
@@ -1577,15 +1579,16 @@ yyreduce:
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 53 "sintactico.y"
+#line 67 ".\\sintactico.y"
     {identificadores[0] = '\0';}
     break;
 
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 53 "sintactico.y"
+#line 67 ".\\sintactico.y"
     { 
+    /*Crea una lista de indetificadores del programa.*/
     strcat(identificadores, yylval.nombre); // añadir a lista el identificador
     strcat(identificadores, " "); // poner separador
     strcpy((yyval.nombre_lista), identificadores); ;}
@@ -1594,7 +1597,7 @@ yyreduce:
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 56 "sintactico.y"
+#line 71 ".\\sintactico.y"
     { 
     strcat(identificadores, yylval.nombre); // añadir a lista el identificador
     strcat(identificadores, " "); // poner separador
@@ -1604,8 +1607,9 @@ yyreduce:
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 63 "sintactico.y"
+#line 78 ".\\sintactico.y"
     {
+        /*Añade una nueva entrada a la tabla hash*/
         char *nombres_identificadores;
         nombres_identificadores = strtok((yyvsp[(3) - (6)].nombre_lista), " ");
         while (nombres_identificadores)
@@ -1626,7 +1630,7 @@ yyreduce:
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 85 "sintactico.y"
+#line 101 ".\\sintactico.y"
     {
         strcpy((yyval.tipo),(yyvsp[(1) - (1)].tipo));
 ;}
@@ -1635,9 +1639,10 @@ yyreduce:
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 95 "sintactico.y"
+#line 111 ".\\sintactico.y"
     {
-         char *nombres_identificadores;
+        /*Añade una nueva entrada a la tabla hash*/
+        char *nombres_identificadores;
         nombres_identificadores = strtok((yyvsp[(3) - (6)].nombre_lista), " ");
         while (nombres_identificadores)
         {
@@ -1658,7 +1663,7 @@ yyreduce:
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 111 "sintactico.y"
+#line 128 ".\\sintactico.y"
     {
         char *nombres_identificadores;
         nombres_identificadores = strtok((yyvsp[(3) - (4)].nombre_lista), " ");
@@ -1680,8 +1685,9 @@ yyreduce:
   case 37:
 
 /* Line 1455 of yacc.c  */
-#line 130 "sintactico.y"
+#line 147 ".\\sintactico.y"
     {
+        /*Añade una nueva entrada a la tabla hash*/
         char *nombres_identificadores;
         nombres_identificadores = strtok((yyvsp[(3) - (3)].tipo), " ");
         while (nombres_identificadores)
@@ -1701,8 +1707,9 @@ yyreduce:
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 144 "sintactico.y"
+#line 162 ".\\sintactico.y"
     {
+        /*Añade una nueva entrada a la tabla hash*/
         char *nombres_identificadores;
         nombres_identificadores = strtok((yyvsp[(3) - (5)].nombre_lista), " ");
         while (nombres_identificadores)
@@ -1722,7 +1729,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 1726 "sintactico.tab.c"
+#line 1733 "sintactico.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1934,7 +1941,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 210 "sintactico.y"
+#line 229 ".\\sintactico.y"
 
 
 int yyerror(char *s) 

@@ -1,5 +1,11 @@
 %{
 
+    /*Inluye el header lex.yy.h, que contiene la definición del lexer.
+    Inluye el header sintactico.tab.h que contiene la definición del parser.
+    Se define contador_fila and total_filas, que se ocupa para mantener cuenta del número de línea acttual.
+    Define la función yyerror(), que se llama cuando ocurre un error.
+    Deefine la función yylex(), que se llama cuando el parser necesita el siguiente token.
+    Define la función yyparse(), que se llama cuando el parser necesita parsear el siguiente token.*/
     #pragma warning(disable: 4996 6011 6385 4013 4244 4267)
     #include <stdio.h>
     #include <string.h>
@@ -15,9 +21,10 @@
     unsigned int total_filas = 1;
 
 %}
+/*Se define el nombre para el archivo de salida.*/
 %option outfile="scanner.c"
-/*%option noyywrap*/
 
+/*Se definen los elementos terminales de la gramática.*/
 CONSTANTE_CADENA         \"[^\n]*\"
 PROGRAM         		 [p][r][o][g][r][a][m]
 LETRA 					 [A-Za-z]
@@ -28,7 +35,6 @@ INT_TIPO        		 [i][n][t][e][g][e][r]
 REAL_TIPO       		 [r][e][a][l]
 STRING_TIPO     		 [s][t][r][i][n][g]
 BOOLEANO_TIPO   		 [b][o][o][l][e][a][n]
-/*RELOP           		 [a][n][d]|[o][r]*/
 ADDOP           		 [+]|[-] 
 MULOP           		 [*]|[/]
 VAR 					 [v][a][r]
@@ -57,37 +63,36 @@ NOT 					 [n][o][t]
 ENTERO                   [+-]?[0-9]+
 REAL                     [+-]?{ENTERO}+\.{DIGITO}+([eE]{ADDOP}?{DIGITO}+)?
 
-
+/*Se definen las acciones a tomar cuando se encuentren coincidencias con las reglas*/
 %%
-
 {PROGRAM}	    {
-                    printf("Encontre: %s\n",yytext); 
+                   printf("Encontre: %s\n",yytext); /*Imprime el valor del token encontrado por Flex */
                    return PROGRAM;
                 }
 
 {INT_TIPO}      {
                     printf("Encontre: %s\n",yytext); 
-                    strcpy(yylval.tipo, "int");
+                    strcpy(yylval.tipo, "int"); /*Copia el string entre comillas la variable yyval.tipo*/
                     return  INT_TIPO;
                 }
 
 {STRING_TIPO}   {
                     printf("Encontre: %s\n",yytext);
-                    strcpy(yylval.tipo, "string");
+                    strcpy(yylval.tipo, "string"); /*Copia el string entre comillas la variable yyval.tipo*/
  
                     return STRING_TIPO;
                 }
 
 {BOOLEANO_TIPO} {
                     printf("Encontre: %s\n",yytext); 
-                                        strcpy(yylval.tipo, "bool");
+                    strcpy(yylval.tipo, "bool"); /*Copia el string entre comillas la variable yyval.tipo*/
 
                     return BOOLEANO_TIPO;
                 }
 
 {REAL_TIPO}     {
                     printf("Encontre: %s\n",yytext); 
-                                        strcpy(yylval.tipo, "float");
+                    strcpy(yylval.tipo, "float"); /*Copia el string entre comillas la variable yyval.tipo*/
 
                     return REAL_TIPO;
                 }
@@ -244,8 +249,8 @@ REAL                     [+-]?{ENTERO}+\.{DIGITO}+([eE]{ADDOP}?{DIGITO}+)?
 
 {IDENTIFICADOR}	{
                    printf("Encontre: %s\n", yytext); 
-                    strcpy(yylval.nombre, yytext);  
-                    yylval.aux.fila_declaracion = contador_fila;
+                    strcpy(yylval.nombre, yytext);  /*Copia el valor del token de yytext a la variable yyval.tipo*/
+                    yylval.aux.fila_declaracion = contador_fila; /*Asigna el valor de contador_fila a la variable yylval.aux.fila_declaracion*/
                     return IDENTIFICADOR;                
                 }		 		 
 
@@ -281,7 +286,7 @@ REAL                     [+-]?{ENTERO}+\.{DIGITO}+([eE]{ADDOP}?{DIGITO}+)?
 
 \n              {
                     //printf("Encontre un salto de linea \n");
-                    contador_fila++;
+                    contador_fila++; /*Aumenta valor actual*/
                     total_filas = contador_fila;     
                 }
 
