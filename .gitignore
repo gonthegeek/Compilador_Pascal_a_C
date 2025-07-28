@@ -1,0 +1,36 @@
+# Build artifacts
+*.exe
+*.obj
+*.pdb
+*.ilk
+*.idb
+*.log
+*.tlog
+*.recipe
+
+# Visual Studio files
+*.vcxproj.user
+x64/
+Debug/
+Release/
+.vs/
+
+# Flex/Bison generated files (keep the ones we want to track)
+# lex.yy.c and sintactico.tab.c are kept as they're part of the project
+
+# Other build artifacts
+*.output
+*.dot
+
+# Temporary files
+*~
+*.tmp
+*.temp
+
+# macOS files
+.DS_Store
+
+# IDE files
+*.swp
+*.swo
+.vscode/settings.json

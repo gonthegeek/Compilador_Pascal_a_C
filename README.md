@@ -1,6 +1,6 @@
 # Pascal to C Compiler
 
-An academic compiler project that translates Pascal source code to C, implementing fundamental compiler design principles including lexical analysis, syntax parsing, and code generation with comprehensive error handling.
+A comprehensive compiler project that translates Pascal source code to C, implementing fundamental compiler design principles including lexical analysis, syntax parsing, and code generation with comprehensive error handling.
 
 ## 🚀 Features
 
@@ -149,7 +149,7 @@ int main() {
 - ✅ **Arrays**: One-dimensional array support
 - ✅ **Input/Output**: read, readln, write, writeln
 
-## 🌟 Academic Learning Outcomes
+## 🌟 Key Learning Outcomes
 
 This project demonstrates understanding of:
 - **Compiler Design Theory**: Formal language principles and compiler phases
@@ -184,7 +184,7 @@ cd CodigoPruebas
 
 ## 📄 License
 
-Academic License - Created for educational purposes and learning.
+MIT License - Open source project for educational and professional purposes.
 
 ---
 

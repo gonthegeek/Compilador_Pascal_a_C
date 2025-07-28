@@ -500,8 +500,8 @@ char *yytext_ptr;
 #include <string.h>
 #include <malloc.h> // para las definiciones de malloc, free que provocan warning
 #include <stdlib.h> // para las definiciones de exit que provocan warning
-#include "sintacticoIa_Ian.tab.h"
-#include "hashMap.h"
+#include "sintactico.tab.h"
+#include "hash.h"
 
 #pragma warning(disable: 4996 6011 6385 4013 4244 4267)
 

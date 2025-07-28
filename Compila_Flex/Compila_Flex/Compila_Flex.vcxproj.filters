@@ -18,18 +18,18 @@
     <ClCompile Include="..\..\lex.yy.c">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Codigo_apoyo\Original\hashMap.c">
+    <ClCompile Include="..\..\hash.c">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sintacticoIa_Ian.tab.c">
+    <ClCompile Include="..\..\sintactico.tab.c">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Codigo_apoyo\Original\hashMap.h">
+    <ClInclude Include="..\..\hash.h">
       <Filter>Archivos de origen</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sintacticoIa_Ian.tab.h">
+    <ClInclude Include="..\..\sintactico.tab.h">
       <Filter>Archivos de origen</Filter>
     </ClInclude>
   </ItemGroup>
